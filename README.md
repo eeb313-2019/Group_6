@@ -9,13 +9,13 @@ We will be using data from the National Ecological Observatory Network's open da
 # Team description
 
 ## Eve
-Eve is a 4th year student who is double majoring in EEB and Neuroscience. Her skills include making plots, linear mixed models, and selecting models.
+Eve is a 4th year student who is double majoring in EEB and Neuroscience. Her skills include making plots, linear mixed models, and selecting models. For this project, she is responsible for the model selection and making plots, as well as preliminary data exploration which will be done independently by every team member.
 
 ## Nicole
-Nicole is a 4th year EEB specialist, whose skills include data wrangling, making plots, and some mathematical modeling. She also has spatial statistics skills she is learning through her undergrad thesis course.
+Nicole is a 4th year EEB specialist, whose skills include data wrangling, making plots, and some mathematical modeling. She also has spatial statistics skills she is learning through her undergrad thesis course. She is responsible for leading the spatial statistics portion of the project, as well as the preliminary data exploration.
 
 ## Sarah
-Sarah is a 3rd year student with majors in EEB and Conservation, and her skills include working with ggplot, multivariate stats, and making figures.
+Sarah is a 3rd year student with majors in EEB and Conservation, and her skills include working with ggplot, multivariate stats, and making figures. She is responsible for leading the multivariate stats portion of the project along with Youngseo, making plots with Eve, as well as the preliminary data exploration.
 
 ## Youngseo
-Youngseo is a 4th year student in EEB specialist, whose skills include making plots, some mathematical modeling she learned from an EEB course, some basic statistics knowledge and multivariate stats. 
+Youngseo is a 4th year student in EEB specialist, whose skills include making plots, some mathematical modeling she learned from an EEB course, some basic statistics knowledge and multivariate stats. She is responsible for leading the multivariate stats portion of the project with Sarah, as well as some spatial statistics work.
