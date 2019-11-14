@@ -1,35 +1,18 @@
 # Possible analyses
 ### I. How to answer research questions 
 For variable community composition, we plan to plot them with PCA and spatial autocorrelation, identify dominant genus (simpson's index), abundance/importance (if have over 10 genus).
-Including species richness as another variable related to community composition. 
-Other variables includes: land use, pH, season, sites, year, water-body type. 
+Dependent variables: community composition for each site, species richness, species evenness. 
+Independent variables includes: nutrient, pH, seasonality, substrate, dissolved oxygen, sites. 
 
-We predict that there is a direct relationship between land use, pH, and season to community composition, while land use and season also influence pH. Our model selection and PCA will be based on these predictions. 
+We predict that the independent variables will affect the dependent variables, and conservation action will be dependent on the community composition, species richness and speices evenness of the sites. 
 
-#### Q1
-	community composition/species richness
-	season
-PCA for community composition 
+Use mixed models (or structure equation model) for the realationship between dependent variables and independent variables 
 
-linear mixed model and model selection - year random effect 
+PCA of abundance - community composition for each site
 
-#### Q2
-	community composition/species richness
-	land use (use proxy for land use)
-Spatial correlation between community composition and land use
+MANOVA - community composition similarity 
 
-PCA 
-
-Model selection with water-body type and sites as random effect
-
-#### Q3
-	pH
-	community composition/species richness
-Spatial correlation between community composition and pH
-
-PCA 
-
-Model selection with water-body type and sites as random effect
+Spatial autocorrelation for sites with dependent variabels (pH, seasonality, substrate)
 
 
 #### II. How do we formulate the data
@@ -40,14 +23,6 @@ Merge data from each year and season (all years, all sites)
 individual count to relative abundance (across sites)
 retain only genus information 
 
-For question 1: 
-Group data by year and season (year - random effect)
-
-For question 2: 
-Group by land use proxy of sites 
-
-For question 3:
-Group by pH (site - random effect)
 
 #### III. what kinds of statistical approaches you anticipate employing
 Principal component analysis (PCA)
@@ -62,9 +37,7 @@ ANOVA, MANOVA/PERMANOVA
 # Possilbe results tables
 Anova/MANOVA/PERMANOVA
 
-Linear mixed model 
-
-Model selection 
+Linear mixed model/Model selection 
 
 
 # Possible results figures 
