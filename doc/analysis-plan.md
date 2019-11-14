@@ -42,7 +42,7 @@ Linear mixed model/Model selection
 
 
 # Possible results figures 
-PCA
+PC graphs
 
 Variogram
 
