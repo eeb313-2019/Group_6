@@ -9,20 +9,25 @@ We predict that there is a direct relationship between land use, pH, and season 
 	community composition/species richness
 	season
 PCA for community composition 
+
 linear mixed model and model selection - year random effect 
 
 #### Q2
 	community composition/species richness
 	land use (use proxy for land use)
 Spatial correlation between community composition and land use
+
 PCA 
+
 Model selection with water-body type and sites as random effect
 
 #### Q3
 	pH
 	community composition/species richness
 Spatial correlation between community composition and pH
+
 PCA 
+
 Model selection with water-body type and sites as random effect
 
 
