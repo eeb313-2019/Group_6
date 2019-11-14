@@ -1,8 +1,9 @@
 # Possible analyses
 ### I. How to answer research questions 
 For variable community composition, we plan to plot them with PCA and spatial autocorrelation, identify dominant genus (simpson's index), abundance/importance (if have over 10 genus).
-Dependent variables: community composition for each site, species richness, species evenness. 
-Independent variables includes: nutrient, pH, seasonality, substrate, dissolved oxygen, sites. 
+
+	Dependent variables: community composition for each site, species richness, species evenness. 
+	Independent variables includes: nutrient, pH, seasonality, substrate, dissolved oxygen, sites. 
 
 We predict that the independent variables will affect the dependent variables, and conservation action will be dependent on the community composition, species richness and speices evenness of the sites. 
 
@@ -21,9 +22,7 @@ Spatial autocorrelation for sites with dependent variabels (pH, seasonality, sub
 
 Merge data from each year and season (all years, all sites, might take an average across the years)
 
-Individual count to relative abundance (across sites)
-
-Retain only genus information 
+New dataset with all required variables for linear mixed-model or model selection anaysis (spread genus information), including sites, year, all indepdendent and dependent variables in a wide-spread data sheet
 
 
 #### III. what kinds of statistical approaches you anticipate employing
