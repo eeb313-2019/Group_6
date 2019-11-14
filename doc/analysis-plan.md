@@ -1,8 +1,9 @@
 # Possible analyses
 ### I. How to answer research questions 
-For variable community composition, we plan to plot them with PCA and spatial autocorrelation, identify dominant genus, abundance/importance (if have over 10 genus).
+For variable community composition, we plan to plot them with PCA and spatial autocorrelation, identify dominant genus (simpson's index), abundance/importance (if have over 10 genus).
 Including species richness as another variable related to community composition. 
 Other variables includes: land use, pH, season, sites, year, water-body type. 
+
 We predict that there is a direct relationship between land use, pH, and season to community composition, while land use and season also influence pH. Our model selection and PCA will be based on these predictions. 
 
 #### Q1
