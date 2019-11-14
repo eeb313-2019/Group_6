@@ -28,7 +28,7 @@ Model selection with water-body type and sites as random effect
 
 #### II. How do we formulate the data
 
-**Cleaning/transformation plan: **
+ **Cleaning/transformation plan:**
 
 Merge data from each year and season (all years, all sites)
 individual count to relative abundance (across sites)
@@ -45,22 +45,28 @@ Group by pH (site - random effect)
 
 #### III. what kinds of statistical approaches you anticipate employing
 Principal component analysis (PCA)
+
 Linear mixed model and model selection  
-spatial autocorrelation test 
-ANOVA 
-MANOVA/PERMANOVA
+
+Spatial autocorrelation test 
+
+ANOVA, MANOVA/PERMANOVA
 
 
 # Possilbe results tables
 Anova/MANOVA/PERMANOVA
+
 Linear mixed model 
+
 Model selection 
 
 
 # Possible results figures 
 PCA
-Variogram 
-Make a map to show sites and factors (legend). 
+
+Variogram
+
+Make a map to show sites and factors (legend)
 
 
 
