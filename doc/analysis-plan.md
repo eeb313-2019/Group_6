@@ -10,7 +10,7 @@ Use mixed models (or structure equation model) for the realationship between dep
 
 PCA of abundance - community composition for each site
 
-MANOVA - community composition similarity 
+MANOVA - community composition similarity across sites 
 
 Spatial autocorrelation for sites with dependent variabels (pH, seasonality, substrate)
 
@@ -19,9 +19,11 @@ Spatial autocorrelation for sites with dependent variabels (pH, seasonality, sub
 
  **Cleaning/transformation plan:**
 
-Merge data from each year and season (all years, all sites)
-individual count to relative abundance (across sites)
-retain only genus information 
+Merge data from each year and season (all years, all sites, might take an average across the years)
+
+Individual count to relative abundance (across sites)
+
+Retain only genus information 
 
 
 #### III. what kinds of statistical approaches you anticipate employing
