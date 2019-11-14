@@ -1,5 +1,3 @@
-# Group_6
-
 # Introduction to the project
 This project will aim to answer questions about the relationship between aquatic communities and their environment, as well as the interaction among the various species in the community. We are interested in seeing how spatial and temporal changes in conditions shape communities, and the macroinvertabrate dataset that we have chosen seem to be a good fit for exploring our objective. We will be using data collected by the National Ecological Observatory Network on macroinvertebrate communities and environmental variables we felt were relevant. In addition to the scientific goal we are also interested in trying to develop some statistical skills and gain more experiences with R, and this project will be a good exercise. 
 
