@@ -3,7 +3,7 @@
 For variable community composition, we plan to plot them with PCA and spatial autocorrelation, identify dominant genus (simpson's index), abundance/importance (if have over 10 genus).
 
 	Dependent variables: community composition for each site, species richness, species evenness. 
-	Independent variables includes: nutrient, pH, seasonality, substrate, dissolved oxygen, sites. 
+	Independent variables includes: pH, seasonality, sites (other environmental factor might be added). 
 
 We predict that the independent variables will affect the dependent variables, and conservation action will be dependent on the community composition, species richness and speices evenness of the sites. 
 
@@ -13,7 +13,7 @@ PCA of abundance - community composition for each site
 
 MANOVA - community composition similarity across sites 
 
-Spatial autocorrelation for sites with dependent variabels (pH, seasonality, substrate)
+Spatial autocorrelation for sites with dependent variabels (pH, seasonality)
 
 
 #### II. How do we formulate the data
