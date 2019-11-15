@@ -13,7 +13,7 @@ PCA of abundance - community composition for each site
 
 MANOVA - community composition similarity across sites 
 
-Spatial autocorrelation for sites with dependent variabels (pH, seasonality)
+Spatial autocorrelation for sites with independent variabels (pH, seasonality)
 
 
 #### II. How do we formulate the data
