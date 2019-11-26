@@ -1,0 +1,50 @@
+---
+title: "making genera dataframe"
+output: html_notebook
+---
+
+packages that will be needed: 
+
+```{r}
+library(readr)
+library(tidyverse)
+```
+
+The code chunk below will make a dataframe of containing all of the csv files with taxonomic information. Before running the code, make sure that setwd(the folder with the macroinvertebrates data)
+
+```{r}
+mydir = "NEON_count-macroinvertebrates (1)"
+
+# list of all files with taxonomic information
+neon_list <- list.files(pattern = "taxonomyProcessed*", recursive = TRUE)
+# there are 136 files
+
+# reading all csv files with taxonomic information
+tbl <-
+    list.files(pattern = "taxonomyProcessed*", recursive = TRUE) %>% 
+    map_df(~read_csv(.))
+
+```
+
+Below are some questions for exploring the data and determining which variables are useful for us.
+
+```{r}
+# if there were multiple labs that were involved in the identification
+tbl %>%
+  summarise(n_distinct(laboratoryName)) # there are 2 distinct laboratories
+
+# how many different people were involved in the identification?
+tbl %>%
+  summarise(n_distinct(identifiedBy)) # 17 different people
+```
+
+We will now pull out the relevant columns.
+
+```{r}
+genera_count <- tbl %>% 
+  select(siteID, collectDate, scientificName, genus, invertebrateLifeStage, 
+         individualCount, subsamplePercent, estimatedTotalCount, # count columns
+         indeterminateSpecies, distinctTaxon,
+         laboratoryName, identifiedBy)
+```
+
