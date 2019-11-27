@@ -48,3 +48,20 @@ genera_count <- tbl %>%
          laboratoryName, identifiedBy)
 ```
 
+We make a dataset with the site and location (longitude and latitude) information we want in our analyses.
+```{r}
+genera_site <- list.files(pattern = "fieldData*", recursive = TRUE) %>% 
+    map_df(~read_csv(., col_types = cols(.default = "c")))
+
+genera_site <- genera_site %>%
+  select(siteID, decimalLatitude, decimalLongitude, aquaticSiteType) %>%
+  distinct() 
+  %>%
+  filter(aquaticSiteType == "stream") %>%
+  select(siteID, decimalLatitude, decimalLongitude)
+```
+
+We will now join genera_count and genera_site to make one dataframe with the taxonomic information as well as the latitude and longitude data for the sites.
+```{r}
+invert_genera <- left_join(genera_count, genera_site, "siteID")
+```
