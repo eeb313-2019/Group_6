@@ -4,8 +4,6 @@ POSE, KING, MCDI, LECO, MAYF, PRIN, BLDE, COMO, WLOU, SYCA, REDB, MART, MCRA, BI
 
 pH.Rmd is the Rmd file used to create the CSV file. 
 
-Invert_genera.csv contains the genus identification, life stage information, counts in the sample, estimated total counts, whether or not species were identified, whether or not the taxa was identified, the name of the laboratory that the taxonomic information were identified in, and the name of the person who identified the samples for the various sites sampled at multiple occasions.
-
-genera_site.csv contains the longitude and latitude to 6 decimal points for each of the sampling sites, as well as the type of water body.
+Invert_genera.csv contains the genus identification, life stage information, counts in the sample, estimated total counts, whether or not species were identified, whether or not the taxa was identified, the name of the laboratory that the taxonomic information were identified in, and the name of the person who identified the samples for the various sites sampled at multiple occasions. It also contains columns for the latitude and longitude of sampling sites to 5 decimal points.
 
 making_genera.Rmd is the Rmd file used to create the CSV file. 
