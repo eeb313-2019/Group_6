@@ -1,0 +1,58 @@
+#1)	Measuring pH variability across sites and seasons
+-	The effect of site, year, and season on pH:
+o	Simple boxplots by sites and seasons: 3 for each site 
+o	**somewhere in lecture** there is code that tests for 4 assumptions of normality – do that before running linear model 
+o	Run multiple models with different structures: run AIC for the best structure 
+o	Account for spatial autocorrelation 
+o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
+#2)	Measuring conductance variability across sites and seasons
+-	The effect of site, year, and season on conductance: 
+o	Simple boxplots by sites and seasons: 3 for each site 
+o	**somewhere in lecture** there is code that tests for 4 assumptions of normality – do that before running linear model 
+o	Run multiple models with different structures: run AIC for the best structure 
+o	Account for spatial autocorrelation 
+o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
+#3)	Measuring Simpson’s Index across sites 
+o	Convert species data to a matrix 
+o	Spatial autocorrelation 
+o	Use Simpson’s function to quantify richness 
+
+#4)	Either linear model or mixed model to measure effect of pH on Species Richness 
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 1 
+
+#5)	Either linear model or mixed model to measure effect of conductance on Species Richness 
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 2
+
+#6)	Measuring Shannon’s Index across sites 
+o	Convert species data to a matrix 
+o	Spatial autocorrelation 
+o	Use Simpson’s function to quantify richness 
+
+#7)	Either linear model or mixed model to measure effect of pH on Species evenness  
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 1 
+
+#8)	Either linear model or mixed model to measure effect of conductance on Species evenness  
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 2
+
+#9)	Create dataset for % Riparian Cover 
+o	Change Y/N for landuse to 0 and 1 and get mean = call this column “% landuse” 
+o	Only keep: mean riparian cover for each site and this new column
+
+#10)	Measure correlation between %Riparian Cover and other variables 
+o	Measure correlation between riparian cover, land use, seasonality and site 
+o	Account for spatial autocorrelation 
+o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
+#11)	Either linear or mixed model to measure the effect of riparian cover on species richness 
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 2
+
+#12)	Either linear model or mixed model to measure effect of riparian cover on Species evenness  
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 2
