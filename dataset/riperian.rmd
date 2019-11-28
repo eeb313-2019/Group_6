@@ -1,0 +1,872 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# POSE
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+require(data.table)
+
+#pose 2017 
+pose.2017.cover <- fread("POSE.rip.2017.05.csv")
+pose.2017.cover <- pose.2017.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="POSE", .before="uid") %>%  
+  add_column(Date="2017-05", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+pose.2017.cover <- pose.2017.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+pose.2017.rip <- fread("POSE.comp.2017.05.csv")
+pose.2017.rip <- pose.2017.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="POSE", .before="uid") %>% 
+  add_column(Date="2017-05", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+pose.2017.rip<- pose.2017.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+pose.2017.full.riperian <- left_join(pose.2017.cover, pose.2017.rip)
+
+#pose 2018
+pose.2018.cover <- fread("POSE.rip.2018.05.csv")
+pose.2018.cover <- pose.2018.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="POSE", .before="uid") %>%  
+  add_column(Date="2018-05", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+pose.2018.cover <- pose.2018.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+pose.2018.rip <- fread("POSE.comp.2018.05.csv")
+pose.2018.rip <- pose.2018.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="POSE", .before="uid") %>% 
+  add_column(Date="2018-05", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+pose.2018.rip<- pose.2018.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+pose.2018.full.riperian <- left_join(pose.2018.cover, pose.2018.rip)
+
+#pose 2019
+pose.2019.cover <- fread("POSE.rip.2019.05.csv")
+pose.2019.cover <- pose.2019.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="POSE", .before="uid") %>%  
+  add_column(Date="2019-05", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+pose.2019.cover <- pose.2019.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+pose.2019.rip <- fread("POSE.comp.2019.05.csv")
+pose.2019.rip <- pose.2019.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="POSE", .before="uid") %>% 
+  add_column(Date="2019-05", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+pose.2019.rip<- pose.2019.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+pose.2019.full.riperian <- left_join(pose.2019.cover, pose.2019.rip)
+
+POSE.RIP<- bind_rows(pose.2017.full.riperian, pose.2018.full.riperian, pose.2019.full.riperian)
+POSE.RIP
+
+```
+
+# KING
+```{r}
+
+#king 2017 
+king.2017.cover <- fread("KING.rip.2017.06.csv")
+king.2017.cover <- king.2017.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="KING", .before="uid") %>%  
+  add_column(Date="2017-06", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+king.2017.cover <- king.2017.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+king.2017.rip <- fread("KING.comp.2017.06.csv")
+king.2017.rip <- king.2017.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="KING", .before="uid") %>% 
+  add_column(Date="2017-06", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+king.2017.rip<- king.2017.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+king.2017.full.riperian <- left_join(king.2017.cover, king.2017.rip)
+
+#king 2018
+king.2018.cover <- fread("KING.rip.2018.06.csv")
+king.2018.cover <- king.2018.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="KING", .before="uid") %>%  
+  add_column(Date="2018-06", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+king.2018.cover <- king.2018.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+king.2018.rip <- fread("KING.comp.2018.06.csv")
+king.2018.rip <- king.2018.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="KING", .before="uid") %>% 
+  add_column(Date="2018-06", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+king.2018.rip<- king.2018.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+king.2018.full.riperian <- left_join(king.2018.cover, king.2018.rip)
+
+#king 2019
+king.2019.cover <- fread("KING.rip.2019.06.csv")
+king.2019.cover <- king.2019.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="KING", .before="uid") %>%  
+  add_column(Date="2019-06", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+king.2019.cover <- king.2019.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+king.2019.rip <- fread("KING.comp.2019.06.csv")
+king.2019.rip <- king.2019.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="KING", .before="uid") %>% 
+  add_column(Date="2019-06", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+king.2019.rip<- king.2019.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+king.2019.full.riperian <- left_join(king.2019.cover, king.2019.rip)
+
+KING.RIP<- bind_rows(king.2017.full.riperian, king.2018.full.riperian, king.2019.full.riperian)
+KING.RIP
+```
+
+# MCDI
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+#mcdi 2017 
+mcdi.2017.cover <- fread("MCDI.rip.2017.06.csv")
+mcdi.2017.cover <- mcdi.2017.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="MCDI", .before="uid") %>%  
+  add_column(Date="2017-06", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+mcdi.2017.cover <- mcdi.2017.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+mcdi.2017.rip <- fread("MCDI.comp.2017.06.csv")
+mcdi.2017.rip <- mcdi.2017.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="MCDI", .before="uid") %>% 
+  add_column(Date="2017-06", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+mcdi.2017.rip<- mcdi.2017.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+mcdi.2017.full.riperian <- left_join(mcdi.2017.cover, mcdi.2017.rip)
+
+#mcdi 2018 
+mcdi.2018.cover <- fread("MCDI.rip.2018.06.csv")
+mcdi.2018.cover <- mcdi.2018.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="MCDI", .before="uid") %>%  
+  add_column(Date="2018-06", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+mcdi.2018.cover <- mcdi.2018.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+mcdi.2018.rip <- fread("MCDI.comp.2018.06.csv")
+mcdi.2018.rip <- mcdi.2018.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="MCDI", .before="uid") %>% 
+  add_column(Date="2018-06", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+mcdi.2018.rip<- mcdi.2018.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+mcdi.2018.full.riperian <- left_join(mcdi.2018.cover, mcdi.2018.rip)
+
+#mcdi 2019
+mcdi.2019.cover <- fread("MCDI.rip.2019.06.csv")
+mcdi.2019.cover <- mcdi.2019.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="MCDI", .before="uid") %>%  
+  add_column(Date="2019-06", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+mcdi.2019.cover <- mcdi.2019.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+mcdi.2019.rip <- fread("MCDI.comp.2019.06.csv")
+mcdi.2019.rip <- mcdi.2019.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="MCDI", .before="uid") %>% 
+  add_column(Date="2019-06", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+mcdi.2019.rip<- mcdi.2019.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+mcdi.2019.full.riperian <- left_join(mcdi.2019.cover, mcdi.2019.rip)
+
+
+
+MCDI.RIP<- bind_rows(mcdi.2017.full.riperian, mcdi.2018.full.riperian, mcdi.2019.full.riperian)
+MCDI.RIP
+```
+
+# LECO
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+
+#leco 2017 
+leco.2017.cover <- fread("LECO.rip.2017.08.csv")
+leco.2017.cover <- leco.2017.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="LECO", .before="uid") %>%  
+  add_column(Date="2017-08", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+leco.2017.cover <- leco.2017.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+leco.2017.rip <- fread("LECO.comp.2017.08.csv")
+leco.2017.rip <- leco.2017.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="LECO", .before="uid") %>% 
+  add_column(Date="2017-08", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+leco.2017.rip<- leco.2017.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+leco.2017.full.riperian <- left_join(leco.2017.cover, leco.2017.rip)
+
+#leco 2018 
+leco.2018.cover <- fread("LECO.rip.2018.08.csv")
+leco.2018.cover <- leco.2018.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="LECO", .before="uid") %>%  
+  add_column(Date="2018-08", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+leco.2018.cover <- leco.2018.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+leco.2018.rip <- fread("LECO.comp.2018.08.csv")
+leco.2018.rip <- leco.2018.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="LECO", .before="uid") %>% 
+  add_column(Date="2018-08", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+leco.2018.rip<- leco.2018.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+leco.2018.full.riperian <- left_join(leco.2018.cover, leco.2018.rip)
+
+#leco 2019
+leco.2019.cover <- fread("LECO.rip.2019.09.csv")
+leco.2019.cover <- leco.2019.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="LECO", .before="uid") %>%  
+  add_column(Date="2019-09", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+leco.2019.cover <- leco.2019.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+leco.2019.rip <- fread("LECO.comp.2019.09.csv")
+leco.2019.rip <- leco.2019.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="LECO", .before="uid") %>% 
+  add_column(Date="2019-09", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+leco.2019.rip<- leco.2019.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+leco.2019.full.riperian <- left_join(leco.2019.cover, leco.2019.rip)
+
+LECO.RIP<- bind_rows(leco.2017.full.riperian, leco.2018.full.riperian, leco.2019.full.riperian)
+LECO.RIP
+
+```
+
+
+# MAYF 
+
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+
+#mayf 2017 
+mayf.2017.cover <- fread("MAYF.rip.2017.08.csv")
+mayf.2017.cover <- mayf.2017.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="MAYF", .before="uid") %>%  
+  add_column(Date="2017-08", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+mayf.2017.cover <- mayf.2017.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+mayf.2017.rip <- fread("MAYF.comp.2017.08.csv")
+mayf.2017.rip <- mayf.2017.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="MAYF", .before="uid") %>% 
+  add_column(Date="2017-08", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+mayf.2017.rip<- mayf.2017.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+mayf.2017.full.riperian <- left_join(mayf.2017.cover, mayf.2017.rip)
+
+#mayf 2018
+mayf.2018.cover <- fread("MAYF.rip.2018.08.csv")
+mayf.2018.cover <- mayf.2018.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="MAYF", .before="uid") %>%  
+  add_column(Date="2018-08", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+mayf.2018.cover <- mayf.2018.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+mayf.2018.rip <- fread("MAYF.comp.2018.08.csv")
+mayf.2018.rip <- mayf.2018.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="MAYF", .before="uid") %>% 
+  add_column(Date="2018-08", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+mayf.2018.rip<- mayf.2018.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+mayf.2018.full.riperian <- left_join(mayf.2018.cover, mayf.2018.rip)
+
+#mayf 2019
+mayf.2019.cover <- fread("MAYF.rip.2019.08.csv")
+mayf.2019.cover <- mayf.2019.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="MAYF", .before="uid") %>%  
+  add_column(Date="2019-08", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+mayf.2019.cover <- mayf.2019.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+mayf.2019.rip <- fread("MAYF.comp.2019.08.csv")
+mayf.2019.rip <- mayf.2019.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="MAYF", .before="uid") %>% 
+  add_column(Date="2019-08", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+mayf.2019.rip<- mayf.2019.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+mayf.2019.full.riperian <- left_join(mayf.2019.cover, mayf.2019.rip)
+
+MAYF.RIP<- bind_rows(mayf.2017.full.riperian, mayf.2018.full.riperian, mayf.2019.full.riperian)
+MAYF.RIP
+```
+
+
+# PRIN 
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+
+#prin 2017 
+prin.2017.cover <- fread("PRIN.rip.2017.04.csv")
+prin.2017.cover <- prin.2017.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="PRIN", .before="uid") %>%  
+  add_column(Date="2017-04", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+prin.2017.cover <- prin.2017.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+prin.2017.rip <- fread("PRIN.comp.2017.04.csv")
+prin.2017.rip <- prin.2017.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="PRIN", .before="uid") %>% 
+  add_column(Date="2017-04", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+prin.2017.rip<- prin.2017.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+prin.2017.full.riperian <- left_join(prin.2017.cover, prin.2017.rip)
+
+#prin 2018 
+prin.2018.cover <- fread("PRIN.rip.2018.04.csv")
+prin.2018.cover <- prin.2018.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="PRIN", .before="uid") %>%  
+  add_column(Date="2018-04", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+prin.2018.cover <- prin.2018.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+prin.2018.rip <- fread("PRIN.comp.2018.04.csv")
+prin.2018.rip <- prin.2018.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="PRIN", .before="uid") %>% 
+  add_column(Date="2018-04", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+prin.2018.rip<- prin.2018.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+prin.2018.full.riperian <- left_join(prin.2018.cover, prin.2018.rip)
+
+#prin 2019
+prin.2019.cover <- fread("PRIN.rip.2019.04.csv")
+prin.2019.cover <- prin.2019.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="PRIN", .before="uid") %>%  
+  add_column(Date="2019-04", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+prin.2019.cover <- prin.2019.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+prin.2019.rip <- fread("PRIN.comp.2019.04.csv")
+prin.2019.rip <- prin.2019.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="PRIN", .before="uid") %>% 
+  add_column(Date="2019-04", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+prin.2019.rip<- prin.2019.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+prin.2019.full.riperian <- left_join(prin.2019.cover, prin.2019.rip)
+
+PRIN.RIP<- bind_rows(prin.2017.full.riperian, prin.2018.full.riperian, prin.2019.full.riperian)
+PRIN.RIP
+```
+
+
+# BLDE 
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+
+#blde 2018 
+blde.2018.cover <- fread("BLDE.rip.2018.06.csv")
+blde.2018.cover <- blde.2018.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="BLDE", .before="uid") %>%  
+  add_column(Date="2018-06", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+blde.2018.cover <- blde.2018.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+blde.2018.rip <- fread("BLDE.comp.2018.06.csv")
+blde.2018.rip <- blde.2018.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="BLDE", .before="uid") %>% 
+  add_column(Date="2018-06", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+blde.2018.rip<- blde.2018.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+blde.2018.full.riperian <- left_join(blde.2018.cover, blde.2018.rip)
+
+
+#blde 2019
+blde.2019.cover <- fread("BLDE.rip.2019.06.csv")
+blde.2019.cover <- blde.2019.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="BLDE", .before="uid") %>%  
+  add_column(Date="2019-06", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+blde.2019.cover <- blde.2019.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+blde.2019.rip <- fread("BLDE.comp.2019.06.csv")
+blde.2019.rip <- blde.2019.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="BLDE", .before="uid") %>% 
+  add_column(Date="2019-06", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+blde.2019.rip<- blde.2019.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+blde.2019.full.riperian <- left_join(blde.2019.cover, blde.2019.rip)
+
+BLDE.RIP<- bind_rows(blde.2018.full.riperian, blde.2019.full.riperian)
+BLDE.RIP
+```
+
+# COMO 
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+
+#como 2017 
+como.2017.cover <- fread("COMO.rip.2017.08.csv")
+como.2017.cover <- como.2017.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="COMO", .before="uid") %>%  
+  add_column(Date="2017-08", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+como.2017.cover <- como.2017.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+como.2017.rip <- fread("COMO.comp.2017.08.csv")
+como.2017.rip <- como.2017.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="COMO", .before="uid") %>% 
+  add_column(Date="2017-08", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+como.2017.rip<- como.2017.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+como.2017.full.riperian <- left_join(como.2017.cover, como.2017.rip)
+
+#como 2018
+como.2018.cover <- fread("COMO.rip.2018.08.csv")
+como.2018.cover <- como.2018.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="COMO", .before="uid") %>%  
+  add_column(Date="2018-08", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+como.2018.cover <- como.2018.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+como.2018.rip <- fread("COMO.comp.2018.08.csv")
+como.2018.rip <- como.2018.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="COMO", .before="uid") %>% 
+  add_column(Date="2018-08", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+como.2018.rip<- como.2018.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+como.2018.full.riperian <- left_join(como.2018.cover, como.2018.rip)
+
+#como 2019
+como.2019.cover <- fread("COMO.rip.2019.08.csv")
+como.2019.cover <- como.2019.cover %>%  
+  filter(!is.na(canopyCoverPercent)) %>%  
+  add_column(Location="COMO", .before="uid") %>%  
+  add_column(Date="2019-08", .before="uid") %>% 
+  dplyr::select(Location, Date, canopyCoverPercent)
+como.2019.cover <- como.2019.cover %>% 
+  group_by(Location, Date) %>% 
+  summarise(mean_canopy = mean(canopyCoverPercent)) 
+
+como.2019.rip <- fread("COMO.comp.2019.08.csv")
+como.2019.rip <- como.2019.rip %>% 
+  mutate(buildingPresence = ifelse(buildingPresence=="Y", 1, 0), 
+         roadPresence = ifelse(roadPresence=="Y", 1, 0), 
+         lawnsParksPresence = ifelse(lawnsParksPresence=="Y", 1, 0), 
+         agriculturePresence = ifelse(agriculturePresence=="Y", 1, 0),
+         industryPresence = ifelse(industryPresence=="Y", 1, 0)) %>%  
+  add_column(Location="COMO", .before="uid") %>% 
+  add_column(Date="2019-08", .before="uid") %>% 
+  select(Location, Date, buildingPresence, roadPresence, lawnsParksPresence, agriculturePresence, industryPresence)
+
+como.2019.rip<- como.2019.rip %>% 
+  group_by(Location, Date) %>% 
+  summarise(fraction_buildings = mean(buildingPresence),
+            fraction_roads = mean(roadPresence), 
+            fraction_parklawn = mean(lawnsParksPresence), 
+            fraction_agriculture = mean(agriculturePresence),
+            fraction_industry = mean(industryPresence))
+
+como.2019.full.riperian <- left_join(como.2019.cover, como.2019.rip)
+
+COMO.RIP<- bind_rows(como.2017.full.riperian, como.2018.full.riperian, como.2019.full.riperian)
+COMO.RIP
+```
+
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+
+FINAL.RIP.POSE <- bind_rows(POSE.RIP, COMO.RIP, LECO.RIP, MAYF.RIP, KING.RIP, PRIN.RIP, BLDE.RIP, MCDI.RIP)
+FINAL.RIP.POSE
+
+FINAL.RIP.WLOU<- read_csv("riperian_wlou_to_cari.csv")
+
+FINAL.RIP<- bind_rows(FINAL.RIP.POSE, FINAL.RIP.WLOU)
+FINAL.RIP %>% 
+  dplyr::select(Location, Date, mean_canopy, fraction_buildings, fraction_roads, fraction_parklawn, fraction_agriculture, fraction_industry)
+
+write_csv(FINAL.RIP, "FINAL.RIP.csv")
+
+FINAL.RIP<- FINAL.RIP %>% 
+  separate(Date, sep="-", into = c("year", "month")) %>% 
+  mutate(year2 = ifelse(year %in% c('2017', '2018', '2019'), year, month)) %>% 
+  mutate(month2 = ifelse(year %in% c('2017', '2018', '2019'), month, year)) %>% 
+  select(-year, -month) %>% 
+  rename(year = year2, month = month2) %>% 
+  mutate(year = ifelse(year %in% c('17', '18', '19'), paste0('20', year), year)) %>% 
+  mutate(month = case_when(
+    month == 'Mar' ~ '03',
+    month == 'Jun' ~ '06',
+    month == 'Jul' ~ '07',
+    month == 'Sep' ~ '09',
+    month == 'Nov' ~ '11',
+    month == 'Apr' ~ '4', 
+    month == 'Oct' ~ '10',
+    month == 'Aug' ~ '8', 
+    TRUE ~ month)) %>% 
+  mutate(month = as.numeric(month), 
+         year = as.numeric(year)) %>% 
+  dplyr::select(Location, year, month, everything())
+
+FINAL.RIP <- FINAL.RIP %>% 
+  filter(!(Location=="OKSR"))
+
+genera<- read_csv("invert.genera.season.csv")
+
+geo<- genera %>% 
+  group_by(siteID)%>% 
+  summarize(latitude= mean(decimalLatitude.x), longitude = mean(decimalLongitude.x)) %>% 
+   select(siteID, latitude, longitude)
+
+FINAL.RIP <- FINAL.RIP %>% 
+  rename(siteID = Location)
+
+FINAL.RIP<- left_join(FINAL.RIP, geo, 'siteID') 
+FINAL.RIP<- FINAL.RIP %>% 
+  dplyr::select(siteID, year, month, mean_canopy, fraction_buildings, fraction_roads, fraction_parklawn, fraction_agriculture, fraction_industry, latitude, longitude) 
+FINAL.RIP
+
+write_csv(FINAL.RIP, "FINAL.RIP.GEO.csv")
+
+
+```
+
+
