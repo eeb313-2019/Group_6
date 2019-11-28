@@ -4,6 +4,9 @@
 library(vegan)
 library(ggplot)
 library(tidyverse)
+library(sp)
+library(raster)
+library(ape)
 ```
 
 ## files needed
