@@ -10,6 +10,20 @@ library(vegan)
 invert_genera <- read_csv("invert.genera.season.csv")
 ```
 
+## Map of the sites
+
+```{r}
+map.US <- map_data("world", region = "USA")
+
+invert_genera %>%
+  ggplot() + 
+  geom_polygon(data = map.US, aes(x = long, y = lat, group = group), fill = NA, colour = "gray") + 
+  coord_fixed() + 
+  geom_point(data = invert_genera, aes(x = decimalLongitude.x, y = decimalLatitude.x)) + 
+  xlim(-200, -50) + 
+  xlab("Longitude") + ylab("Latitude")
+```
+
 #1)	Measuring pH variability across sites and seasons
 -	The effect of site, year, and season on pH:
 o	Simple boxplots by sites and seasons: 3 for each site 
