@@ -29,7 +29,8 @@ invert_genera %>%
 ## Inverse distance weight matrix for testing spatial autocorrelation
 
 ```{r}
-coord_invert <- SpatialPoints(cbind(invert_evenness_coords$decimalLongitude, invert_evenness_coords$decimalLatitude), proj4string=CRS("+proj=longlat +ellps=WGS84"))
+coord_invert <- SpatialPoints(cbind(invert_evenness_coords$decimalLongitude, invert_evenness_coords$decimalLatitude), 
+proj4string=CRS("+proj=longlat +ellps=WGS84"))
 
 UTM.US <- spTransform(coord_invert, CRS("+init=epsg:2163")) # US National Atlas Equal Area
 
