@@ -7,7 +7,7 @@ library(vegan)
 ## files needed
 
 ```{r}
-invert_genera <- read_csv("invert_genera.csv")
+invert_genera <- read_csv("invert.genera.season.csv")
 ```
 
 #1)	Measuring pH variability across sites and seasons
