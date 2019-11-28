@@ -1,0 +1,1682 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# 1)POSE
+```{r}
+setwd("C:/Users/nicol/Documents/School Work/year 4/EEB313/pH data")
+require(data.table)
+
+# POSE - 2017 September 
+POSE_2017.09.02<- fread("POSE.pH.2017.09.csv")
+POSE_2017.09.02<- POSE_2017.09.02%>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89519, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14786, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2017.09.02<- POSE_2017.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# POSE - 2018 March 
+
+POSE_2018.03.01<- fread("POSE.pH.2018.03.01.csv")
+POSE_2018.03.01<- POSE_2018.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89440, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14729, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2018.03.01<- POSE_2018.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+POSE_2018.03.02<- fread("POSE.pH.2018.03.02.csv")
+POSE_2018.03.02<- POSE_2018.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89519, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14786, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2018.03.02<- POSE_2018.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# POSE - 2018 June
+
+POSE_2018.06.01<- fread("POSE.pH.2018.06.01.csv")
+POSE_2018.06.01<- POSE_2018.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89440, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14729, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2018.06.01<- POSE_2018.06.01 %>% 
+ group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+POSE_2018.06.02<- fread("POSE.pH.2018.06.02.csv")
+POSE_2018.06.02<- POSE_2018.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89519, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14786, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2018.06.02<- POSE_2018.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# POSE - 2018 September
+
+POSE_2018.09.01<- fread("POSE.pH.2018.09.01.csv")
+POSE_2018.09.01<- POSE_2018.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89440, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14729, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2018.09.01<- POSE_2018.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+POSE_2018.09.02<- fread("POSE.pH.2018.09.02.csv")
+POSE_2018.09.02<- POSE_2018.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89519, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14786, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2018.09.02<- POSE_2018.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# POSE - 2019 March 
+
+POSE_2019.03.01<- fread("POSE.pH.2019.03.01.csv")
+POSE_2019.03.01<- POSE_2019.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89440, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14729, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2019.03.01<- POSE_2019.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+POSE_2019.03.02<- fread("POSE.pH.2019.03.02.csv")
+POSE_2019.03.02<- POSE_2019.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89519, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14786, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2019.03.02<- POSE_2019.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# POSE - 2019 June 
+
+POSE_2019.06.01<- fread("POSE.pH.2019.06.01.csv")
+POSE_2019.06.01<- POSE_2019.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89440, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14729, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2019.06.01<- POSE_2019.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+POSE_2019.06.02<- fread("POSE.pH.2019.06.02.csv")
+POSE_2019.06.02<- POSE_2019.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89519, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14786, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>%
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude,Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2019.06.02<- POSE_2019.06.02 %>% 
+ group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# POSE - 2019 September 
+
+POSE_2019.09.01<- fread("POSE.pH.2019.09.01.csv")
+POSE_2019.09.01<- POSE_2019.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89440, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14729, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2019.09.01<- POSE_2019.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+POSE_2019.09.02<- fread("POSE.pH.2019.09.02.csv")
+POSE_2019.09.02<- POSE_2019.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'POSE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.89519, .before= 'startDateTime') %>%
+   add_column(Longitude= -78.14786, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+POSE_2019.09.02<- POSE_2019.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+POSE<- bind_rows(POSE_2017.09.02, POSE_2018.03.01, POSE_2018.03.02, POSE_2018.06.01, POSE_2018.06.02, POSE_2018.09.01, POSE_2018.09.02, POSE_2019.03.01, POSE_2019.03.02, POSE_2019.06.01, POSE_2019.06.02, POSE_2019.09.01, POSE_2019.09.02)
+POSE
+```
+
+
+# 2)KING
+```{r}
+# KING - 2017 September 
+KING_2017.09.01<- fread("KING.pH.2017.09.01.csv")
+KING_2017.09.01<- KING_2017.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+   add_column(Latitude= 39.104761, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.602339, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2017.09.01<- KING_2017.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+KING_2017.09.02<- fread("KING.pH.2017.09.02.csv")
+KING_2017.09.02<- KING_2017.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+   add_column(Latitude= 39.105069, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.603387, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2017.09.02<- KING_2017.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+
+# KING - 2018 March 
+
+KING_2018.03.01<- fread("KING.pH.2018.03.01.csv")
+KING_2018.03.01<- KING_2018.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+   add_column(Latitude= 39.104761, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.602339, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2018.03.01<- KING_2018.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+KING_2018.03.02<- fread("KING.pH.2018.03.02.csv")
+KING_2018.03.02<- KING_2018.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+    add_column(Latitude= 39.105069, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.603387, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2018.03.02<- KING_2018.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# KING - 2018 June
+
+KING_2018.06.01<- fread("KING.pH.2018.06.01.csv")
+KING_2018.06.01<- KING_2018.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+   add_column(Latitude= 39.104761, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.602339, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2018.06.01<- KING_2018.06.01 %>% 
+ group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+KING_2018.06.02<- fread("KING.pH.2018.06.02.csv")
+KING_2018.06.02<- KING_2018.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+    add_column(Latitude= 39.105069, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.603387, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2018.06.02<- KING_2018.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# KING - 2018 September
+
+KING_2018.09.01<- fread("KING.pH.2018.09.01.csv")
+KING_2018.09.01<- KING_2018.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+   add_column(Latitude= 39.104761, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.602339, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2018.09.01<- KING_2018.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+KING_2018.09.02<- fread("KING.pH.2018.09.02.csv")
+KING_2018.09.02<- KING_2018.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+    add_column(Latitude= 39.105069, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.603387, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2018.09.02<- KING_2018.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# KING - 2019 April 
+
+KING_2019.04.01<- fread("KING.pH.2019.04.01.csv")
+KING_2019.04.01<- KING_2019.04.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+   add_column(Latitude= 39.104761, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.602339, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-04", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2019.04.01<- KING_2019.04.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+KING_2019.04.02<- fread("KING.pH.2019.04.02.csv")
+KING_2019.04.02<- KING_2019.04.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+    add_column(Latitude= 39.105069, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.603387, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-04", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2019.04.02<- KING_2019.04.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# KING - 2019 June 
+
+KING_2019.06.01<- fread("KING.pH.2019.06.01.csv")
+KING_2019.06.01<- KING_2019.06.01 %>% 
+  filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+   add_column(Latitude= 39.104761, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.602339, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2019.06.01<- KING_2019.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+KING_2019.06.02<- fread("KING.pH.2019.06.02.csv")
+KING_2019.06.02<- KING_2019.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+    add_column(Latitude= 39.105069, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.603387, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>%
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2019.06.02<- KING_2019.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# KING - 2019 October 
+
+KING_2019.10.01<- fread("KING.pH.2019.10.01.csv")
+KING_2019.10.01<- KING_2019.10.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+   add_column(Latitude= 39.104761, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.602339, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-10", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2019.10.01<- KING_2019.10.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+KING_2019.10.02<- fread("KING.pH.2019.10.02.csv")
+KING_2019.10.02<- KING_2019.10.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'KING', .before= 'startDateTime') %>% 
+    add_column(Latitude= 39.105069, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.603387, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-10", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+KING_2019.10.02<- KING_2019.10.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+KING<- bind_rows(KING_2017.09.01, KING_2017.09.02, KING_2018.03.01, KING_2018.03.02, KING_2018.06.01, KING_2018.06.02, KING_2018.09.01, KING_2018.09.02, KING_2019.04.01, KING_2019.04.02, KING_2019.06.01, KING_2019.06.02, KING_2019.10.01, KING_2019.10.02) 
+KING
+```
+
+
+# 3)MCDI
+```{r}
+# MCDI - 2018 March 
+
+MCDI_2018.03.01<- fread("MCDI.pH.2018.03.01.csv")
+MCDI_2018.03.01<- MCDI_2018.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.947228, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.443842, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2018.03.01<- MCDI_2018.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MCDI_2018.03.02<- fread("MCDI.pH.2018.03.02.csv")
+MCDI_2018.03.02<- MCDI_2018.03.02 %>% 
+  filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.946553, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.442948, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2018.03.02<- MCDI_2018.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MCDI - 2018 June
+
+MCDI_2018.06.01<- fread("MCDI.pH.2018.06.01.csv")
+MCDI_2018.06.01<- MCDI_2018.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.947228, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.443842, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2018.06.01<- MCDI_2018.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MCDI_2018.06.02<- fread("MCDI.pH.2018.06.02.csv")
+MCDI_2018.06.02<- MCDI_2018.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>%
+   add_column(Latitude= 38.946553, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.442948, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2018.06.02<- MCDI_2018.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MCDI - 2018 October
+
+MCDI_2018.10.01<- fread("MCDI.pH.2018.10.csv")
+MCDI_2018.10.01<- MCDI_2018.10.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.947228, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.443842, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-10", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2018.10.01<- MCDI_2018.10.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MCDI - 2019 March 
+
+MCDI_2019.03.01<- fread("MCDI.pH.2019.03.01.csv")
+MCDI_2019.03.01<- MCDI_2019.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.947228, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.443842, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2019.03.01<- MCDI_2019.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MCDI_2019.03.02<- fread("MCDI.pH.2019.03.02.csv")
+MCDI_2019.03.02<- MCDI_2019.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.946553, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.442948, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2019.03.02<- MCDI_2019.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MCDI - 2019 August 
+
+MCDI_2019.08.01<- fread("MCDI.pH.2019.08.01.csv")
+MCDI_2019.08.01<- MCDI_2019.08.01 %>% 
+  filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.947228, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.443842, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-08", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2019.08.01<- MCDI_2019.08.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MCDI_2019.08.02<- fread("MCDI.pH.2019.08.02.csv")
+MCDI_2019.08.02<- MCDI_2019.08.02 %>% 
+  filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.946553, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.442948, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-08", .before= 'startDateTime') %>%
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2019.08.02<- MCDI_2019.08.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+ summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MCDI - 2019 September 
+
+MCDI_2019.09.01<- fread("MCDI.pH.2019.09.01.csv")
+MCDI_2019.09.01<- MCDI_2019.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.947228, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.443842, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH,specificConductance) 
+
+MCDI_2019.09.01<- MCDI_2019.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MCDI_2019.09.02<- fread("MCDI.pH.2019.09.02.csv")
+MCDI_2019.09.02<- MCDI_2019.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MCDI', .before= 'startDateTime') %>% 
+   add_column(Latitude= 38.946553, .before= 'startDateTime') %>%
+   add_column(Longitude= -96.442948, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MCDI_2019.09.02<- MCDI_2019.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MCDI <- bind_rows(MCDI_2018.03.01, MCDI_2018.03.02, MCDI_2018.06.01, MCDI_2018.06.02, MCDI_2018.10.01, MCDI_2019.03.01, MCDI_2019.03.02, MCDI_2019.08.01, MCDI_2019.08.02, MCDI_2019.09.01, MCDI_2019.09.02 )
+MCDI
+```
+
+
+# 4)LECO
+
+```{r}
+# LECO - 2017 May 
+LECO_2017.05.01<- fread("LECO.pH.2017.05.01.csv")
+LECO_2017.05.01<- LECO_2017.05.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'LECO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 35.689128, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.503356, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-05", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2017.05.01<- LECO_2017.05.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+LECO_2017.05.02<- fread("LECO.pH.2017.05.02.csv")
+LECO_2017.05.02<- LECO_2017.05.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'LECO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 35.692201, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.504427, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-05", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2017.05.02<- LECO_2017.05.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# LECO - 2018 March 
+
+LECO_2018.03.01<- fread("LECO.pH.2018.03.01.csv")
+LECO_2018.03.01<- LECO_2018.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'LECO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 35.689128, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.503356, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2018.03.01<- LECO_2018.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+LECO_2018.03.02<- fread("LECO.pH.2018.03.02.csv")
+LECO_2018.03.02<- LECO_2018.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'LECO', .before= 'startDateTime') %>%
+   add_column(Latitude= 35.692201, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.504427, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2018.03.02<- LECO_2018.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# LECO - 2018 June
+
+LECO_2018.06.01<- fread("LECO.pH.2018.06.01.csv")
+LECO_2018.06.01<- LECO_2018.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'LECO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 35.689128, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.503356, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2018.06.01<- LECO_2018.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+LECO_2018.06.02<- fread("LECO.pH.2018.06.02.csv")
+LECO_2018.06.02<- LECO_2018.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'LECO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 35.692201, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.504427, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2018.06.02<- LECO_2018.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# LECO - 2019 March 
+
+LECO_2019.03.01<- fread("LECO.pH.2019.03.csv")
+LECO_2019.03.01<- LECO_2019.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'LECO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 35.689128, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.503356, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2019.03.01<- LECO_2019.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# LECO - 2019 June 
+
+LECO_2019.06.01<- fread("LECO.pH.2019.06.csv")
+LECO_2019.06.01<- LECO_2019.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'LECO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 35.689128, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.503356, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2019.06.01<- LECO_2019.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# LECO - 2019 September 
+
+LECO_2019.09.01<- fread("LECO.pH.2019.09.csv")
+LECO_2019.09.01<- LECO_2019.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'LECO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 35.689128, .before= 'startDateTime') %>%
+   add_column(Longitude= -83.503356, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+LECO_2019.09.01<- LECO_2019.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+
+LECO <- bind_rows(LECO_2017.05.01, LECO_2017.05.02, LECO_2018.03.01, LECO_2018.03.02, LECO_2018.06.01, LECO_2018.06.02, LECO_2019.03.01, LECO_2019.06.01, LECO_2019.09.01)
+LECO
+```
+
+
+# 5)MAYF 
+```{r}
+# MAYF - 2017 March 
+MAYF_2017.03.01<- fread("MAYF.pH.2017.03.01.csv")
+MAYF_2017.03.01<- MAYF_2017.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.960401, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.407848, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2017.03.01<- MAYF_2017.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF_2017.03.02<- fread("MAYF.pH.2017.03.02.csv")
+MAYF_2017.03.02<- MAYF_2017.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.961588, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.408214, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2017.03.02<- MAYF_2017.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MAYF - 2017 September 
+MAYF_2017.09.01<- fread("MAYF.pH.2017.09.01.csv")
+MAYF_2017.09.01<- MAYF_2017.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.960401, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.407848, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2017.09.01<- MAYF_2017.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF_2017.09.02<- fread("MAYF.pH.2017.09.02.csv")
+MAYF_2017.09.02<- MAYF_2017.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.961588, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.408214, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2017.09.02<- MAYF_2017.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MAYF - 2018 March 
+
+MAYF_2018.03.01<- fread("MAYF.pH.2018.03.01.csv")
+MAYF_2018.03.01<- MAYF_2018.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.960401, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.407848, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2018.03.01<- MAYF_2018.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF_2018.03.02<- fread("MAYF.pH.2018.03.02.csv")
+MAYF_2018.03.02<- MAYF_2018.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.961588, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.408214, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2018.03.02<- MAYF_2018.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MAYF - 2018 June
+
+MAYF_2018.06.01<- fread("MAYF.pH.2018.06.01.csv")
+MAYF_2018.06.01<- MAYF_2018.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.960401, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.407848, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2018.06.01<- MAYF_2018.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF_2018.06.02<- fread("MAYF.pH.2018.06.02.csv")
+MAYF_2018.06.02<- MAYF_2018.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.961588, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.408214, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2018.06.02<- MAYF_2018.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+ summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MAYF - 2018 September
+
+MAYF_2018.09.01<- fread("MAYF.pH.2018.09.01.csv")
+MAYF_2018.09.01<- MAYF_2018.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.960401, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.407848, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2018.09.01<- MAYF_2018.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF_2018.09.02<- fread("MAYF.pH.2018.09.02.csv")
+MAYF_2018.09.02<- MAYF_2018.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.961588, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.408214, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2018.09.02<- MAYF_2018.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MAYF - 2019 March 
+
+MAYF_2019.03.01<- fread("MAYF.pH.2019.03.01.csv")
+MAYF_2019.03.01<- MAYF_2019.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.960401, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.407848, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2019.03.01<- MAYF_2019.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+ summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF_2019.03.02<- fread("MAYF.pH.2019.03.02.csv")
+MAYF_2019.03.02<- MAYF_2019.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.961588, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.408214, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2019.03.02<- MAYF_2019.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MAYF - 2019 June 
+
+MAYF_2019.06.01<- fread("MAYF.pH.2019.06.01.csv")
+MAYF_2019.06.01<- MAYF_2019.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>%
+   add_column(Latitude= 32.960401, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.407848, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2019.06.01<- MAYF_2019.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF_2019.06.02<- fread("MAYF.pH.2019.06.02.csv")
+MAYF_2019.06.02<- MAYF_2019.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.961588, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.408214, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>%
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2019.06.02<- MAYF_2019.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# MAYF - 2019 September 
+
+MAYF_2019.09.01<- fread("MAYF.pH.2019.09.01.csv")
+MAYF_2019.09.01<- MAYF_2019.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>% 
+   add_column(Latitude= 32.960401, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.407848, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2019.09.01<- MAYF_2019.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF_2019.09.02<- fread("MAYF.pH.2019.09.02.csv")
+MAYF_2019.09.02<- MAYF_2019.09.02 %>% 
+  filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'MAYF', .before= 'startDateTime') %>%
+   add_column(Latitude= 32.961588, .before= 'startDateTime') %>%
+   add_column(Longitude= -87.408214, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+MAYF_2019.09.02<- MAYF_2019.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+MAYF<- bind_rows(MAYF_2017.03.01, MAYF_2017.03.02, MAYF_2017.09.01, MAYF_2017.09.02, MAYF_2018.03.01, MAYF_2018.03.02, MAYF_2018.06.01, MAYF_2018.06.02, MAYF_2018.09.01, MAYF_2018.09.02, MAYF_2019.03.01, MAYF_2019.03.02, MAYF_2019.06.01, MAYF_2019.06.02, MAYF_2019.09.01, MAYF_2019.09.02)
+MAYF
+```
+
+# 6)PRIN 
+
+```{r}
+# PRIN - 2017 September 
+PRIN_2017.09.01<- fread("PRIN.pH.2017.09.01.csv")
+PRIN_2017.09.01<- PRIN_2017.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378354, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.783597, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2017.09.01<- PRIN_2017.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+PRIN_2017.09.02<- fread("PRIN.pH.2017.09.02.csv")
+PRIN_2017.09.02<- PRIN_2017.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378426, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.781495, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2017.09.02<- PRIN_2017.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# PRIN - 2018 March 
+
+PRIN_2018.03.01<- fread("PRIN.pH.2018.03.01.csv")
+PRIN_2018.03.01<- PRIN_2018.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>%
+   add_column(Latitude= 33.378354, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.783597, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2018.03.01<- PRIN_2018.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+PRIN_2018.03.02<- fread("PRIN.pH.2018.03.02.csv")
+PRIN_2018.03.02<- PRIN_2018.03.02 %>% 
+  filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378426, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.781495, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2018.03.02<- PRIN_2018.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# PRIN - 2018 June
+
+PRIN_2018.06.01<- fread("PRIN.pH.2018.06.01.csv")
+PRIN_2018.06.01<- PRIN_2018.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378354, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.783597, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2018.06.01<- PRIN_2018.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+ summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+PRIN_2018.06.02<- fread("PRIN.pH.2018.06.02.csv")
+PRIN_2018.06.02<- PRIN_2018.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378426, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.781495, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2018.06.02<- PRIN_2018.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# PRIN - 2018 September
+
+PRIN_2018.09.01<- fread("PRIN.pH.2018.09.01.csv")
+PRIN_2018.09.01<- PRIN_2018.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378354, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.783597, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2018.09.01<- PRIN_2018.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+PRIN_2018.09.02<- fread("PRIN.pH.2018.09.02.csv")
+PRIN_2018.09.02<- PRIN_2018.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378426, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.781495, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2018.09.02<- PRIN_2018.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# PRIN - 2019 March 
+
+PRIN_2019.03.01<- fread("PRIN.pH.2019.03.01.csv")
+PRIN_2019.03.01<- PRIN_2019.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378354, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.783597, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2019.03.01<- PRIN_2019.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+PRIN_2019.03.02<- fread("PRIN.pH.2019.03.02.csv")
+PRIN_2019.03.02<- PRIN_2019.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378426, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.781495, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2019.03.02<- PRIN_2019.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# PRIN - 2019 June 
+
+PRIN_2019.06.01<- fread("PRIN.pH.2019.06.01.csv")
+PRIN_2019.06.01<- PRIN_2019.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378354, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.783597, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2019.06.01<- PRIN_2019.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+ summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+PRIN_2019.06.02<- fread("PRIN.pH.2019.06.02.csv")
+PRIN_2019.06.02<- PRIN_2019.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378426, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.781495, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>%
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2019.06.02<- PRIN_2019.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# PRIN - 2019 September 
+
+PRIN_2019.09.01<- fread("PRIN.pH.2019.09.01.csv")
+PRIN_2019.09.01<- PRIN_2019.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378354, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.783597, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2019.09.01<- PRIN_2019.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+PRIN_2019.09.02<- fread("PRIN.pH.2019.09.02.csv")
+PRIN_2019.09.02<- PRIN_2019.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'PRIN', .before= 'startDateTime') %>% 
+   add_column(Latitude= 33.378426, .before= 'startDateTime') %>%
+   add_column(Longitude= -97.781495, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+PRIN_2019.09.02<- PRIN_2019.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+PRIN<- bind_rows(PRIN_2017.09.01, PRIN_2017.09.02, PRIN_2018.03.01, PRIN_2018.03.02, PRIN_2018.06.01, PRIN_2018.06.02, PRIN_2018.09.01, PRIN_2018.09.02, PRIN_2019.03.01, PRIN_2019.03.02, PRIN_2019.06.01, PRIN_2019.06.02, PRIN_2019.09.01, PRIN_2019.09.02)
+PRIN
+```
+
+
+# 7) BLDE 
+
+```{r}
+# BLDE - 2018 September
+
+BLDE_2018.09.01<- fread("BLDE.pH.2018.09.01.csv")
+BLDE_2018.09.01<- BLDE_2018.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'BLDE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 44.951119, .before= 'startDateTime') %>%
+   add_column(Longitude= -110.58817, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+BLDE_2018.09.01<- BLDE_2018.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+BLDE_2018.09.02<- fread("BLDE.pH.2018.09.02.csv")
+BLDE_2018.09.02<- BLDE_2018.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'BLDE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 44.953606, .before= 'startDateTime') %>%
+   add_column(Longitude= -110.589395, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+BLDE_2018.09.02<- BLDE_2018.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# PRIN - 2019 April 
+
+BLDE_2019.04.01<- fread("BLDE.pH.2019.04.01.csv")
+BLDE_2019.04.01<- BLDE_2019.04.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'BLDE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 44.951119, .before= 'startDateTime') %>%
+   add_column(Longitude= -110.58817, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-04", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+BLDE_2019.04.01<- BLDE_2019.04.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+BLDE_2019.04.02<- fread("BLDE.pH.2019.04.02.csv")
+BLDE_2019.04.02<- BLDE_2019.04.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'BLDE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 44.953606, .before= 'startDateTime') %>%
+   add_column(Longitude= -110.589395, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-04", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+BLDE_2019.04.02<- BLDE_2019.04.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# BLDE - 2019 August 
+
+BLDE_2019.08.01<- fread("BLDE.pH.2019.08.01.csv")
+BLDE_2019.08.01<- BLDE_2019.08.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'BLDE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 44.951119, .before= 'startDateTime') %>%
+   add_column(Longitude= -110.58817, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-08", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+BLDE_2019.08.01<- BLDE_2019.08.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+BLDE_2019.08.02<- fread("BLDE.pH.2019.08.02.csv")
+BLDE_2019.08.02<- BLDE_2019.08.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'BLDE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 44.953606, .before= 'startDateTime') %>%
+   add_column(Longitude= -110.589395, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-08", .before= 'startDateTime') %>%
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+BLDE_2019.08.02<- BLDE_2019.08.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# BLDE - 2019 September 
+
+BLDE_2019.09.01<- fread("BLDE.pH.2019.09.01.csv")
+BLDE_2019.09.01<- BLDE_2019.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'BLDE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 44.951119, .before= 'startDateTime') %>%
+   add_column(Longitude= -110.58817, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+BLDE_2019.09.01<- BLDE_2019.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+ summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+BLDE_2019.09.02<- fread("BLDE.pH.2019.09.02.csv")
+BLDE_2019.09.02<- BLDE_2019.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'BLDE', .before= 'startDateTime') %>% 
+   add_column(Latitude= 44.953606, .before= 'startDateTime') %>%
+   add_column(Longitude= -110.589395, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+BLDE_2019.09.02<- BLDE_2019.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+BLDE<- bind_rows(BLDE_2018.09.01, BLDE_2018.09.02, BLDE_2019.04.01, BLDE_2019.04.02, BLDE_2019.08.01, BLDE_2019.08.02, BLDE_2019.09.01, BLDE_2019.09.02) 
+BLDE
+
+```
+
+
+# 8) COMO
+```{r}
+# COMO - 2017 September 
+COMO_2017.09.01<- fread("COMO.pH.2017.09.01.csv")
+COMO_2017.09.01<- COMO_2017.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 40.03495, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.545311, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2017.09.01<- COMO_2017.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+COMO_2017.09.02<- fread("COMO.pH.2017.09.02.csv")
+COMO_2017.09.02<- COMO_2017.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+   add_column(Latitude= 40.034953, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.544407, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2017-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2017.09.02<- COMO_2017.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# COMO - 2018 March 
+
+COMO_2018.03.01<- fread("COMO.pH.2018.03.01.csv")
+COMO_2018.03.01<- COMO_2018.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.03495, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.545311, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2018.03.01<- COMO_2018.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+COMO_2018.03.02<- fread("COMO.pH.2018.03.02.csv")
+COMO_2018.03.02<- COMO_2018.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.034953, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.544407, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2018.03.02<- COMO_2018.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# COMO - 2018 June
+
+COMO_2018.06.01<- fread("COMO.pH.2018.06.01.csv")
+COMO_2018.06.01<- COMO_2018.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.03495, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.545311, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2018.06.01<- COMO_2018.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+COMO_2018.06.02<- fread("COMO.pH.2018.06.02.csv")
+COMO_2018.06.02<- COMO_2018.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.034953, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.544407, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2018.06.02<- COMO_2018.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# COMO - 2018 September
+
+COMO_2018.09.01<- fread("COMO.pH.2018.09.01.csv")
+COMO_2018.09.01<- COMO_2018.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.03495, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.545311, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2018.09.01<- COMO_2018.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+COMO_2018.09.02<- fread("COMO.pH.2018.09.02.csv")
+COMO_2018.09.02<- COMO_2018.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.034953, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.544407, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2018-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2018.09.02<- COMO_2018.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# COMO - 2019 March 
+
+COMO_2019.03.01<- fread("COMO.pH.2019.03.01.csv")
+COMO_2019.03.01<- COMO_2019.03.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'COMO', .before= 'startDateTime') %>%
+    add_column(Latitude= 40.03495, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.545311, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2019.03.01<- COMO_2019.03.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+COMO_2019.03.02<- fread("COMO.pH.2019.03.02.csv")
+COMO_2019.03.02<- COMO_2019.03.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.034953, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.544407, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-03", .before= 'startDateTime') %>% 
+   add_column(Season= "Spring", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2019.03.02<- COMO_2019.03.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# COMO - 2019 June 
+
+COMO_2019.06.01<- fread("COMO.pH.2019.06.01.csv")
+COMO_2019.06.01<- COMO_2019.06.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.03495, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.545311, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>% 
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2019.06.01<- COMO_2019.06.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+ summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+COMO_2019.06.02<- fread("COMO.pH.2019.06.02.csv")
+COMO_2019.06.02<- COMO_2019.06.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>% 
+   add_column(Location= 'COMO', .before= 'startDateTime') %>%
+    add_column(Latitude= 40.034953, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.544407, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-06", .before= 'startDateTime') %>%
+   add_column(Season= "Summer", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2019.06.02<- COMO_2019.06.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+# COMO - 2019 September 
+
+COMO_2019.09.01<- fread("COMO.pH.2019.09.01.csv")
+COMO_2019.09.01<- COMO_2019.09.01 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.03495, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.545311, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2019.09.01<- COMO_2019.09.01 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+COMO_2019.09.02<- fread("COMO.pH.2019.09.02.csv")
+COMO_2019.09.02<- COMO_2019.09.02 %>% 
+   filter(!is.na(pH) &!is.na(specificConductance)) %>%  
+   add_column(Location= 'COMO', .before= 'startDateTime') %>% 
+    add_column(Latitude= 40.034953, .before= 'startDateTime') %>%
+   add_column(Longitude= -105.544407, .before= 'startDateTime') %>%
+   add_column(CollectionMethod= "YSI.EXO", .before='startDateTime') %>% 
+   add_column(Date= "2019-09", .before= 'startDateTime') %>% 
+   add_column(Season= "Fall", .before= 'startDateTime') %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance) 
+
+COMO_2019.09.02<- COMO_2019.09.02 %>% 
+  group_by(Location, Date, Latitude, Longitude, Season, CollectionMethod) %>% 
+  summarise(pH= mean(pH), specificConductance= mean(specificConductance))
+
+COMO<- bind_rows(COMO_2017.09.01, COMO_2017.09.02, COMO_2018.03.01, COMO_2018.03.02, COMO_2018.06.01, COMO_2018.06.02, COMO_2018.09.01, COMO_2018.09.02, COMO_2019.03.01, COMO_2019.03.02, COMO_2019.06.01, COMO_2019.06.02, COMO_2019.09.01, COMO_2019.09.02)
+COMO
+```
+
+# 1651 lines of code later... 
+
+```{r}
+pH.POSE.to.COMO<- bind_rows(POSE, KING, MCDI, LECO, MAYF, PRIN, BLDE, COMO)
+pH.POSE.to.COMO
+
+write.csv(pH.POSE.to.COMO, "pH.POSE.to.COMO.csv")
+
+pH_wlou_to_cari<- read_csv("pH_wlou_to_cari.csv")
+pH_wlou_to_cari<- pH_wlou_to_cari %>% 
+  rename("specificConductance"= conductance)
+
+n<- read_csv("pH.POSE.to.COMO.csv")
+final_pH<- bind_rows(n , pH_wlou_to_cari)
+final_pH <- final_pH %>% 
+  dplyr::select(Location, Date, Latitude, Longitude, Season, CollectionMethod, pH, specificConductance)
+write.csv(final_pH, "final_pH.csv")
+
+FINAL.PH<- final_pH %>% 
+   group_by(Location, Date, Season) %>% 
+   summarize(pH= mean(pH), conductance= mean(specificConductance))
+
+write.csv(FINAL.PH, "FINAL.PH.CSV")
+FINAL.PH
+
+```
+
+``
+```
+
+
+
