@@ -4,6 +4,12 @@
 library(vegan)
 ```
 
+## files needed
+
+```{r}
+invert_genera <- read_csv("invert_genera.csv")
+```
+
 #1)	Measuring pH variability across sites and seasons
 -	The effect of site, year, and season on pH:
 o	Simple boxplots by sites and seasons: 3 for each site 
