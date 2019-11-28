@@ -31,6 +31,19 @@ o	Convert species data to a matrix
 o	Spatial autocorrelation 
 o	Use Simpson’s function to quantify richness 
 
+## Richness
+```{r}
+library(tidyverse)
+library(vegan)
+
+ig_all <- read_csv("invert.genera.season.csv", col_names = TRUE)
+
+ig_simpson <- ig_all %>%
+  group_by(siteID, collectDate) %>%
+  summarise(simpson = diversity(estimatedTotalCount, index = "simpson"),
+            richness = specnumber(estimatedTotalCount)) 
+```
+
 #4)	Either linear model or mixed model to measure effect of pH on Species Richness 
 o	Need to account for spatial autocorrelation from step 3 
 o	Model structure will depend on results from step 1 
