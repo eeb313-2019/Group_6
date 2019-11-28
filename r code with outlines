@@ -1,3 +1,9 @@
+## packages needed
+
+```{r}
+library(vegan)
+```
+
 #1)	Measuring pH variability across sites and seasons
 -	The effect of site, year, and season on pH:
 o	Simple boxplots by sites and seasons: 3 for each site 
@@ -31,6 +37,14 @@ o	Model structure will depend on results from step 2
 o	Convert species data to a matrix 
 o	Spatial autocorrelation 
 o	Use Simpson’s function to quantify richness 
+
+## Evenness
+```{r}
+invert_evenness <- invert_genera %>%
+  group_by(siteID, collectDate) %>%
+  summarise(shannon = diversity(estimatedTotalCount, index = "shannon"),
+            evenness = shannon/log(specnumber(estimatedTotalCount))) 
+```
 
 #7)	Either linear model or mixed model to measure effect of pH on Species evenness  
 o	Need to account for spatial autocorrelation from step 3 
