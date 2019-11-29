@@ -76,11 +76,12 @@ ig_simpson <- ig_all %>%
   group_by(siteID, collectDate) %>%
   summarise(simpson = diversity(estimatedTotalCount, index = "simpson"),
             richness = specnumber(estimatedTotalCount)) 
+ig_all_simpson <- inner_join(ig_all, ig_simpson)
 ```
 ## Is the simpson's index spatially autocorrelated?
 
 ```{r}
-Moran.I(invert_evenness_coords$evenness, inv.dist, alternative = "two.sided") # p < 0.05, therefore it is spatially autocorrelated.
+Moran.I(ig_all_simpson$richness, inv.dist, alternative = "two.sided") # p < 0.05, therefore it is spatially autocorrelated.
 ```
 
 # 4)	Measure correlation between %Riparian Cover and other variables 
