@@ -89,6 +89,31 @@ o	Measure correlation between riparian cover, land use, seasonality and site
 o	Account for spatial autocorrelation 
 o	Identify which variable to include as random effect (whatever the fixed effect is) 
 
+```{r}
+riparian_data <- read_csv("FINAL.RIP.GEO.csv", col_names = TRUE)
+```
+```{r}
+rd_spring<- riparian_data %>%
+  filter(month >=3, month <= 5) %>%
+  mutate(season = "Spring")
+
+rd_summer<- riparian_data %>%
+  filter(month >=6, month <= 8) %>%
+  mutate(season = "Summer")
+
+rd_fall<- riparian_data %>%
+  filter(month >=9, month <= 11) %>%
+  mutate(season = "Fall")
+
+riparian_data_season <- rbind(rd_spring, rd_summer, rd_fall) # added season to riparian data just in case we need it. can delete later if we dont use it.
+```
+## Spatial autocorrelation between riparian cover and sites
+
+```{r}
+Moran.I(riparian_data$mean_canopy, inv.dist, alternative = "two.sided")
+#p.value = 0.603 so its not spatially correlated. 
+```
+
 # 5)	Either linear model or mixed model to measure effect of pH, conductance, and riparian cover on Species Richness 
 o	Need to account for spatial autocorrelation from step 3 
 o	Model structure will depend on results from step 1, 2, and 4
