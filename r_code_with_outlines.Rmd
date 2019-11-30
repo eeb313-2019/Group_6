@@ -79,9 +79,14 @@ ig_simpson <- ig_all %>%
 ig_all_simpson <- inner_join(ig_all, ig_simpson)
 ```
 ## Is the simpson's index spatially autocorrelated?
-
+### richness 
 ```{r}
 Moran.I(ig_all_simpson$richness, inv.dist, alternative = "two.sided") # p < 0.05, therefore it is spatially autocorrelated.
+```
+### simpson's index
+```{r}
+Moran.I(ig_all_simpson$simpson, inv.dist, alternative = "two.sided") 
+# p = 0.01546975 < 0.05, therefore it is spatially autocorrelated.
 ```
 
 # 4)	Measure correlation between %Riparian Cover and other variables 
@@ -113,6 +118,52 @@ riparian_data_season <- rbind(rd_spring, rd_summer, rd_fall)
 ```{r}
 Moran.I(riparian_data$mean_canopy, inv.dist, alternative = "two.sided")
 #p.value = 0.603 so its not spatially correlated. 
+```
+## Correlation between riparian cover and other variables
+### with month
+```{r}
+# see March and April have lower canopy cover than other month.
+riparian_data %>%
+  mutate(month = as.factor(month)) %>%
+  ggplot(aes(x = month, y = mean_canopy)) +
+  geom_boxplot()
+```
+### with season
+```{r}
+# see March and April have lower canopy cover than other month, don't see that difference in seasons. 
+riparian_data_season %>%
+  ggplot(aes(x = season, y = mean_canopy)) +
+  geom_boxplot()
+```
+### with site
+```{r}
+# sites do differ in canopy cover between each other 
+riparian_data %>%
+  ggplot(aes(x = siteID, y = mean_canopy, color = siteID))+
+  geom_boxplot()
+```
+### with year 
+```{r}
+# each years are similar 
+riparian_data %>%
+  mutate(year = as.factor(year)) %>%
+  ggplot(aes(x = year, y = mean_canopy))+
+  geom_boxplot()
+```
+### with land use
+```{r}
+# slightly positive relationtship 
+riparian_data %>%
+  ggplot(aes(x = summed_landuse, y = mean_canopy)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+### correlation between site and land use
+```{r}
+# some sites have zero land use. 
+riparian_data %>%
+  ggplot(aes(x = siteID, y = summed_landuse)) +
+  geom_boxplot()
 ```
 
 # 5)	Either linear model or mixed model to measure effect of pH, conductance, and riparian cover on Species Richness 
