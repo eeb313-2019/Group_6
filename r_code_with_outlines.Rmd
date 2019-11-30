@@ -9,6 +9,7 @@ library(sp)
 library(raster)
 library(ape)
 library(lawstat) 
+library(MuMIn) 
 ```
 
 ## files needed
