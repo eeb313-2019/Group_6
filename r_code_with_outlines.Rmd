@@ -1,0 +1,128 @@
+## packages needed
+
+```{r}
+library(vegan)
+library(ggplot)
+library(tidyverse)
+library(sp)
+library(raster)
+library(ape)
+```
+
+## files needed
+
+```{r}
+invert_genera <- read_csv("invert.genera.season.csv")
+```
+
+## Map of the sites
+
+```{r}
+map.US <- map_data("world", region = "USA")
+
+invert_genera %>%
+  ggplot() + 
+  geom_polygon(data = map.US, aes(x = long, y = lat, group = group), fill = NA, colour = "gray") + 
+  coord_fixed() + 
+  geom_point(data = invert_genera, aes(x = decimalLongitude.x, y = decimalLatitude.x)) + 
+  xlim(-200, -50) + 
+  xlab("Longitude") + ylab("Latitude")
+```
+
+## Inverse distance weight matrix for testing spatial autocorrelation
+
+```{r}
+coord_invert <- SpatialPoints(cbind(invert_evenness_coords$decimalLongitude, invert_evenness_coords$decimalLatitude), 
+proj4string=CRS("+proj=longlat +ellps=WGS84"))
+
+UTM.US <- spTransform(coord_invert, CRS("+init=epsg:2163")) # US National Atlas Equal Area
+
+dist.matrix <- as.matrix(dist(data.frame(UTM.US)))
+
+inv.dist<- 1/dist.matrix
+
+diag(inv.dist) <- 0
+
+# getting rid of infinite values
+inv.dist[is.infinite(inv.dist)] <- 0
+```
+
+# 1)	Measuring pH variability across sites and seasons
+-	The effect of site, year, and season on pH:
+o	Simple boxplots by sites and seasons: 3 for each site 
+o	**somewhere in lecture** there is code that tests for 4 assumptions of normality – do that before running linear model 
+o	Run multiple models with different structures: run AIC for the best structure 
+o	Account for spatial autocorrelation 
+o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
+# 2)	Measuring conductance variability across sites and seasons
+-	The effect of site, year, and season on conductance: 
+o	Simple boxplots by sites and seasons: 3 for each site 
+o	**somewhere in lecture** there is code that tests for 4 assumptions of normality – do that before running linear model 
+o	Run multiple models with different structures: run AIC for the best structure 
+o	Account for spatial autocorrelation 
+o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
+# 3)	Measuring Simpson’s Index across sites 
+o	Convert species data to a matrix 
+o	Spatial autocorrelation 
+o	Use Simpson’s function to quantify richness 
+
+## Simpson's index of diversity
+```{r}
+ig_all <- read_csv("invert.genera.season.csv", col_names = TRUE)
+
+ig_simpson <- ig_all %>%
+  group_by(siteID, collectDate) %>%
+  summarise(simpson = diversity(estimatedTotalCount, index = "simpson"),
+            richness = specnumber(estimatedTotalCount)) 
+ig_all_simpson <- inner_join(ig_all, ig_simpson)
+```
+## Is the simpson's index spatially autocorrelated?
+
+```{r}
+Moran.I(ig_all_simpson$richness, inv.dist, alternative = "two.sided") # p < 0.05, therefore it is spatially autocorrelated.
+```
+
+# 4)	Measure correlation between %Riparian Cover and other variables 
+o	Measure correlation between riparian cover, land use, seasonality and site 
+o	Account for spatial autocorrelation 
+o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
+# 5)	Either linear model or mixed model to measure effect of pH, conductance, and riparian cover on Species Richness 
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 1, 2, and 4
+
+# 7)	Measuring Shannon’s Index across sites 
+o	Convert species data to a matrix 
+o	Spatial autocorrelation 
+o	Use Simpson’s function to quantify richness 
+
+## Evenness
+```{r}
+invert_evenness <- invert_genera %>%
+  group_by(siteID, collectDate) %>%
+  summarise(shannon = diversity(estimatedTotalCount, index = "shannon"),
+            evenness = shannon/log(specnumber(estimatedTotalCount))) 
+```
+
+## Is evenness spatially autocorrelated?
+```{r}
+Moran.I(invert_evenness_coords$evenness, inv.dist, alternative = "two.sided") ## p = 0.432 so it is not.
+```
+
+# 8)	Either linear model or mixed model to measure effect of pH on Species evenness  
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 1 
+
+# 9)	Either linear model or mixed model to measure effect of conductance on Species evenness  
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 2
+
+# 10)	Either linear or mixed model to measure the effect of riparian cover on species richness 
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 2
+
+# 11)	Either linear model or mixed model to measure effect of riparian cover on Species evenness  
+o	Need to account for spatial autocorrelation from step 3 
+o	Model structure will depend on results from step 2
