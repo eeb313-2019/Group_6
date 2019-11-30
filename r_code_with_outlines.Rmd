@@ -79,9 +79,14 @@ ig_simpson <- ig_all %>%
 ig_all_simpson <- inner_join(ig_all, ig_simpson)
 ```
 ## Is the simpson's index spatially autocorrelated?
-
+### richness 
 ```{r}
 Moran.I(ig_all_simpson$richness, inv.dist, alternative = "two.sided") # p < 0.05, therefore it is spatially autocorrelated.
+```
+### simpson's index
+```{r}
+Moran.I(ig_all_simpson$simpson, inv.dist, alternative = "two.sided") 
+# p = 0.01546975 < 0.05, therefore it is spatially autocorrelated.
 ```
 
 # 4)	Measure correlation between %Riparian Cover and other variables 
