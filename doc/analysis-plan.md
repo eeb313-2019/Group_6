@@ -1,53 +1,47 @@
-# Possible analyses
-### I. How to answer research questions 
-We will test for spatial autocorrelation of community composition, identify dominant genus (simpson's index), abundance/importance (if have over 10 genus).
+# Analyses plan
+ 
+1)	Measuring pH variability across sites and seasons
+-	The effect of site, year, and season on pH:
+-	Simple boxplots by sites and seasons: 3 for each site 
+-	**somewhere in lecture** there is code that tests for 4 assumptions of normality – do that before running linear model 
+-	Run multiple models with different structures: run AIC for the best structure 
+-	Account for spatial autocorrelation 
+-	Identify which variable to include as random effect (whatever the fixed effect is) 
 
-	Dependent variables: community composition for each site, species richness, species evenness. 
-	Independent variables includes: pH, seasonality, sites (other environmental factor might be added). 
+2)	Measuring conductance variability across sites and seasons
+-	The effect of site, year, and season on conductance: 
+-	Simple boxplots by sites and seasons: 3 for each site 
+-	**somewhere in lecture** there is code that tests for 4 assumptions of normality – do that before running linear model 
+-	Run multiple models with different structures: run AIC for the best structure 
+-	Account for spatial autocorrelation 
+-	Identify which variable to include as random effect (whatever the fixed effect is) 
 
-We predict that the independent variables will affect the dependent variables, and we focus on the relationship between environmental factors and our dependent variables. 
+3)	Create dataset for % Riparian Cover 
+-	Change Y/N for landuse to 0 and 1 and get mean = call this column “% landuse” 
+-	Only keep: mean riparian cover for each site and this new column
 
-Use mixed models (structure equation model) for the realationship between dependent variables and independent variables 
+4)	Measure correlation between %Riparian Cover and other variables 
+-	Measure correlation between riparian cover, land use, seasonality and site 
+-	Account for spatial autocorrelation 
+-	Identify which variable to include as random effect (whatever the fixed effect is) 
 
-PCA of abundance - community composition for each site
+5)	Measuring Simpson’s Index across sites 
+-	Convert species data to a matrix 
+-	Spatial autocorrelation 
+-	Use Simpson’s function to quantify diversity
 
-MANOVA - community composition similarity across sites 
+6)	Either linear model or mixed model to measure effect of pH, conductance, riperian cover, and land use on Simpson's index
+-	Need to account for spatial autocorrelation from step 3 
+-	Model structure will depend on results from step 1 
 
-Spatial autocorrelation for sites with independent variabels (pH, seasonality)
+8)	Measuring Shannon’s Index across sites and 
+-	Convert species data to a matrix 
+-	Spatial autocorrelation 
+-	Use Simpson’s function to quantify richness 
 
-
-#### II. How do we formulate the data
-
- **Cleaning/transformation plan:**
-
-Merge data from each year and season (all years, all sites)
-
-New dataset with all required variables for linear mixed-model or model selection anaysis (spread genus information), including sites, year, all indepdendent and dependent variables in a wide-spread data sheet
-
-
-#### III. what kinds of statistical approaches you anticipate employing
-Principal component analysis (PCA)
-
-Linear mixed model and model selection  
-
-Spatial autocorrelation test 
-
-ANOVA, MANOVA/PERMANOVA
-
-
-# Possilbe results tables
-Anova/MANOVA/PERMANOVA
-
-Linear mixed model/Model selection 
-
-
-# Possible results figures 
-PC graphs
-
-Variogram
-
-Make a map to show sites and factors (legend)
-
+9)	Either linear model or mixed model to measure effect of pH, conductance, riperian cover, and land use on Species evenness  
+-	Need to account for spatial autocorrelation from step 3 
+-	Model structure will depend on results from step 1 
 
 
 
