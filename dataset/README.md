@@ -1,6 +1,13 @@
-PH.FINAL.csv dataset contains the pH and conductance information for 15 sites in csv format:
+PH.FINAL.GEO. csv dataset contains the pH and conductance information for 15 sites in csv format:
 POSE, KING, MCDI, LECO, MAYF, PRIN, BLDE, COMO, WLOU, SYCA, REDB, MART, MCRA, BIGC, CARI, TECR.
-1 site were excluded due to lack of data: OKSR.
+1 site was excluded due to lack of data: OKSR.
+It contains the mean pH, mean conductance, and geographic coordniates. 
+It also contains the Rmd file used to create the CSV file. 
+
+RIP.FINAL.GEO.csv dataset contains the riparian information for 15 sites in csv format:
+POSE, KING, MCDI, LECO, MAYF, PRIN, BLDE, COMO, WLOU, SYCA, REDB, MART, MCRA, BIGC, CARI, TECR.
+1 site was excluded due to lack of data: OKSR.
+It contains the percent canopy cover, land use, and geographic coordinates. 
 It also contains the Rmd file used to create the CSV file. 
 
 Invert_genera.csv contains the genus identification, life stage information, counts in the sample,
