@@ -52,6 +52,13 @@ inv.dist[is.infinite(inv.dist)] <- 0
 ```
 
 # 1)	Measuring pH variability across sites and seasons
+-	The effect of site, year, and season on pH:
+o	Simple boxplots by sites and seasons: 3 for each site 
+o	there is code that tests for 4 assumptions of normality – do that before running linear model 
+o	Run multiple models with different structures: run AIC for the best structure 
+o	Account for spatial autocorrelation 
+o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
 ``` {r}
 # Removing outliers that don't fit within the normal range of pH values (ie. 0-14)
 cleaned.final.ph<- FINAL.PH %>% 
