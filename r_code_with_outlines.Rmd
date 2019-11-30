@@ -93,6 +93,7 @@ o	Identify which variable to include as random effect (whatever the fixed effect
 riparian_data <- read_csv("FINAL.RIP.GEO.csv", col_names = TRUE)
 ```
 ```{r}
+# added season to riparian data just in case we need it. can delete later if we dont use it.
 rd_spring<- riparian_data %>%
   filter(month >=3, month <= 5) %>%
   mutate(season = "Spring")
@@ -105,7 +106,7 @@ rd_fall<- riparian_data %>%
   filter(month >=9, month <= 11) %>%
   mutate(season = "Fall")
 
-riparian_data_season <- rbind(rd_spring, rd_summer, rd_fall) # added season to riparian data just in case we need it. can delete later if we dont use it.
+riparian_data_season <- rbind(rd_spring, rd_summer, rd_fall) 
 ```
 ## Spatial autocorrelation between riparian cover and sites
 
