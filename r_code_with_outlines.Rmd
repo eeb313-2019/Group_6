@@ -143,28 +143,27 @@ AIC_mod
 #USING AICc because n/k is 18.5 (i.e less than 40)
 
 ```
-
 # Linear Models - best random structure 
 ```{r}
-pH.lm.sat.f<-lmer(pH~Season*siteID +(1|year) +(1|month) +(1|month:year), data= cleaned.final.ph, REML= TRUE)
-pH.lm.sat<-lmer(pH~Season*siteID +(1|year) +(1|month), data= cleaned.final.ph, REML= TRUE)
-pH.lm.sat.y<-lmer(pH~Season*siteID +(1|year), data= cleaned.final.ph, REML= TRUE)
-pH.lm.sat.m<-lmer(pH~Season*siteID  +(1|month), data= cleaned.final.ph, REML= TRUE)
+pH.lm.sat.f<-lmer(pH~Season*siteID + (1|year/month), data= cleaned.final.ph, REML= TRUE)
+pH.lm.sat<-lmer(pH~Season*siteID +(1|year), data= cleaned.final.ph, REML= TRUE)
 
-MuMIn::AICc(pH.lm.sat.m, pH.lm.sat.y, pH.lm.sat, pH.lm.sat.f)
+
+MuMIn::AICc(pH.lm.sat, pH.lm.sat.f)
 
 ```
+
 # Linear Models - best fixed structure 
 ```{r}
-pH.lm.sat.f<-lmer(pH~Season*siteID +(1|year) +(1|month) +(1|month:year), data= cleaned.final.ph, REML= FALSE)
-pH.lm.sat.season<-lmer(pH~Season +(1|year) +(1|month) +(1|month:year), data= cleaned.final.ph, REML= FALSE)
-pH.lm.sat.siteID<-lmer(pH~siteID +(1|year) +(1|month) +(1|month:year), data= cleaned.final.ph, REML= FALSE)
-pH.lm.sat.no.int<-lmer(pH~Season +siteID +(1|year) +(1|month) +(1|month:year), data= cleaned.final.ph, REML= FALSE)
-pH.lm.sat.ind<-lmer(pH~1 +(1|year) +(1|month) +(1|month:year), data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.f<-lmer(pH~Season*siteID + (1|year/month), data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.season<-lmer(pH~Season +(1|year/month), data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.siteID<-lmer(pH~siteID +(1|year/month), data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.no.int<-lmer(pH~Season +siteID +(1|year/month) , data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.ind<-lmer(pH~1  +(1|year/month), data= cleaned.final.ph, REML= FALSE)
 
-MuMIn::AICc(pH.lm.sat.m, pH.lm.sat.season, pH.lm.sat.siteID, pH.lm.sat.no.int, pH.lm.sat.ind)
+MuMIn::AICc(pH.lm.sat.f, pH.lm.sat.season, pH.lm.sat.siteID, pH.lm.sat.no.int, pH.lm.sat.ind)
 
-# best structure is pH.lm.sat.siteID
+# best structure is pH.lm.sat.f
 ```
 
 
@@ -194,9 +193,9 @@ Moran.I(cleaned.final.ph$pH, inv.dist, alternative = "two.sided") #p value is 0.
 
 # FINAL PH MODEL IS: 
 ```{r}
-pH.lm.sat.siteID<-lmer(pH~siteID +(1|year) +(1|month) +(1|month:year), data= cleaned.final.ph, REML= FALSE)
-```
+pH.lm.sat.f<-lmer(pH~Season*siteID + (1|year/month), data= cleaned.final.ph, REML= FALSE)
 
+```
 
 # 2)	Measuring conductance variability across sites and seasons
 -	The effect of site, year, and season on conductance: 
