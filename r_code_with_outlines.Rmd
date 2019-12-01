@@ -393,7 +393,57 @@ summary:
   + we noticed in the variogram that there was one outlier point (high semivariance, far distance), which might have been skewing the data 
 - reran moran's i & a semivariogram, and found that spatial autocorrelation was still significant 
   + however, it was negatively significant - increasing distance between sites made variance decrease
+- for the next step, we will include cari, but note this site skews the direction of the autocorrelation
 
+##creating a model corrected for spatial autocorrelation
+```{r}
+#jittering coords
+##because the same location was sampled over successive seasons/years, we have to jitter coordinates slightly
+set.seed(777)
+
+coord_invert_jitter <- SpatialPoints(cbind(jitter(df_ph_logged$longitude), jitter(df_ph_logged$latitude)), proj4string = CRS("+proj=longlat +ellps=WGS84"))
+
+UTM.US.jitter <- spTransform(coord_invert_jitter, CRS("+init=epsg:2163"))
+UTM.US.jitter
+
+#binding together jittered location & conductance data set 
+df_ph_logged_jitter <- df_ph_logged %>% 
+  dplyr::select(-coords.x1, -coords.x2) %>% 
+  bind_cols(as.data.frame(UTM.US.jitter))
+
+#all model types 
+conductance.exp <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="exponential"))
+conductance.gau <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="gaussian"))
+conductance.lin <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="linear"))
+conductance.rat <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="rational"))
+conductance.sph <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="spherical"))
+
+#testing for the best model
+AICc(conductance.null, conductance.exp, conductance.gau, conductance.lin, conductance.rat, conductance.sph)
+
+##since the gaussian model has the lowest AICc score, it has the best fit to the data
+
+#best model to predict conductance is: 
+conductance.gau <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="gaussian"))
+```
+summary: 
+- set a seed so that the long/lat points jitter the same way each time 
+  + jittering the long/lat points allows us to run spatial correction models where the same location is sampled over months/years 
+  + the coordinates are changed very slightly, but not in a way that affects our analyses
+- next, we ran multiple "corrected" models, where the spatial autocorrelation is accounted for in the regression
+  + the best model was the gaussian model 
 
 # 3)	Measuring Simpson’s Index across sites 
 o	Convert species data to a matrix 
