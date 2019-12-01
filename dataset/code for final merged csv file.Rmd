@@ -1,0 +1,52 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+require(vegan)
+
+ig_all <- read_csv("invert.genera.season.csv", col_names = TRUE)
+ig_simpson <- ig_all %>%
+  group_by(siteID, collectDate) %>%
+  summarise(simpson = diversity(estimatedTotalCount, index = "simpson"),
+            richness = specnumber(estimatedTotalCount)) 
+
+ig_all_simpson <- inner_join(ig_all, ig_simpson)
+
+invert_evenness <- ig_all_simpson %>%
+  group_by(siteID, collectDate) %>%
+  summarise(shannon = diversity(estimatedTotalCount, index = "shannon"),
+            evenness = shannon/log(specnumber(estimatedTotalCount))) 
+
+ig_all_estimates <- inner_join(ig_all_simpson, invert_evenness)
+ig_all_estimates
+
+n<- cleaned.final.ph %>% 
+  rename(season= Season) %>% 
+  filter(!(year== "2019") & (conductance < 10000)) %>% 
+  group_by(siteID, season, year, longitude, latitude) %>% 
+  dplyr::select(siteID, season, year, longitude, latitude, pH, conductance)
+
+m<- ig_all_estimates %>% 
+  filter(!(season== "Winter")) %>% 
+  group_by(siteID, season, year) %>% 
+  dplyr::select(siteID, season, year, simpson, richness, shannon, evenness)
+  
+ig_all_estimates_pH_conductivity<- merge(n, m, by=c("siteID", "season","year"))
+ig_all_estimates_pH_conductivity
+
+riparian<- read_csv("FINAL.RIP.GEO.csv")
+
+riparian<- riparian %>% 
+  filter(!(year== "2019")) %>% 
+  group_by(siteID, year) %>% 
+  dplyr::select(siteID, year, mean_canopy, summed_landuse)
+
+merged.final.file<- merge(ig_all_estimates_pH_conductivity, riparian, by=c("siteID", "year"))
+merged.final.file
+
+write_csv(merged.final.file, "merged.final.file.csv")
+
+```
+
