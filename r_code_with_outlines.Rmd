@@ -358,6 +358,43 @@ Moran.I(df_ph_logged$logged.conductance, inv_dist, alternative = "two.sided")
 
 ```
 
+##removoing site in alaska ("CARI") & rechecking spatial autocorrelation 
+```{r}
+#visualizing the null model using a variogram 
+df_ph_logged <- bind_cols(df_ph_logged, as.data.frame(UTM.US))
+df_ph_logged
+conductance.null <- gls(logged.conductance ~ siteID, data=df_ph_logged, method="ML")
+plot(Variogram(conductance.null, form = ~coords.x1+coords.x2, resType = "normalized"))
+##it appears that one point is an outlier - the comparison is of locations that are very far from each other 
+##we could try excluding the alaska site (cari) to see if it resolves the issue of spatial autocorrelation
+
+#excluding mayf site in alaska 
+conductance.cari.out <- df_ph_logged %>% 
+  filter(!siteID == "CARI")
+conductance.null <- gls(logged.conductance ~ siteID, data=conductance.cari.out, method="ML")
+plot(Variogram(conductance.null, form = ~coords.x1+coords.x2, resType = "normalized"))
+##the semivariogram now has a decreasing slope
+
+#calculating moran's i without "cari" site
+coord_invert.cari.out <- SpatialPoints(cbind(conductance.cari.out$longitude, conductance.cari.out$latitude), proj4string = CRS("+proj=longlat +ellps=WGS84"))
+UTM.US <- spTransform(coord_invert.cari.out, CRS("+init=epsg:2163"))
+
+dist_matrix.cari.out <- as.matrix(dist(data.frame(UTM.US)))
+inv_dist.cari.out <- 1/dist_matrix.cari.out
+diag(inv_dist.cari.out) <- 0
+inv_dist.cari.out[is.infinite(inv_dist.cari.out)] <- 0
+
+Moran.I(conductance.cari.out$logged.conductance, inv_dist.cari.out, alternative = "two.sided") 
+##pvalue << 0.05, so there is still signficant spatial autocorrelation - in this case it's oddly negative 
+```
+summary: 
+- the pvalue for moran's i with all the sites included was << 0.05, indicating that there was spatial autocorrelation in the data
+  + some points were more similar depending on distance
+  + we noticed in the variogram that there was one outlier point (high semivariance, far distance), which might have been skewing the data 
+- reran moran's i & a semivariogram, and found that spatial autocorrelation was still significant 
+  + however, it was negatively significant - increasing distance between sites made variance decrease
+
+
 # 3)	Measuring Simpson’s Index across sites 
 o	Convert species data to a matrix 
 o	Spatial autocorrelation 
