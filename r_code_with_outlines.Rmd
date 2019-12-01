@@ -1,15 +1,21 @@
 ## packages needed
 
 ```{r}
+library(dplyr)
+library(ggplot)
 library (readr) 
 library(vegan)
-library(ggplot)
+library(ggplot2)
 library(tidyverse)
 library(sp)
 library(raster)
 library(ape)
 library(lawstat) 
-library(MuMIn) 
+library(rcompanion)
+library(lme4)
+library(MuMIn)
+library(lawstat)
+library(nlme)
 ```
 
 ## files needed
@@ -200,10 +206,244 @@ pH.lm.sat.f<-lmer(pH~Season*siteID + (1|year/month), data= cleaned.final.ph, REM
 # 2)	Measuring conductance variability across sites and seasons
 -	The effect of site, year, and season on conductance: 
 o	Simple boxplots by sites and seasons: 3 for each site 
-o	**somewhere in lecture** there is code that tests for 4 assumptions of normality – do that before running linear model 
+o	test assumptions – do that before running linear model 
 o	Run multiple models with different structures: run AIC for the best structure 
 o	Account for spatial autocorrelation 
 o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
+```{r}
+#removed the TECR site since it didn't have any taxonomic data 
+df_ph <- df_ph %>% 
+  dplyr::select(siteID, year, month, Season, pH, conductance, latitude, longitude) %>% 
+  filter(!siteID == "TECR")
+```
+##assumptions:
+```{r}
+#visualizing the data across sites 
+df_ph %>% 
+  ggplot(aes(x=siteID, y=conductance)) + 
+  geom_point() 
+  
+#remove two outliers due to sampling or inputting error 
+df_ph_clean<- df_ph %>% 
+  filter(conductance < 10000)
+df_ph_clean
+
+#this generates 4 plots for normality & homogeneity: 
+basic.conductance.lm <- lm(conductance ~ Season*siteID, data=df_ph_clean)
+par(mfrow=c(2,2))
+plot(basic.conductance.lm)
+
+#ASSESSING NORMALITY:
+df_ph_clean %>% 
+  ggplot(aes(x=conductance)) + 
+  geom_histogram() 
+plotNormalHistogram(x=df_ph_clean$conductance)
+#this is super non-normal
+
+df_ph_clean %>% 
+  ggplot(aes(x=conductance)) + 
+  geom_histogram() + 
+  facet_wrap(~siteID, scales="free_x")
+#there aren't enough observations per site to assess normality
+
+df_ph_clean %>% 
+  ggplot(aes(x=conductance)) + 
+  geom_histogram() + 
+  facet_wrap(~Season, scales="free_x")
+#left-skewed for each season
+
+#visualizing the data after applying log transformation to conductance 
+#using plotNormalHistogram to have a fitness line superimposed; easier to draw conclusions 
+#all of these are much more normally distributed 
+plotNormalHistogram(x=log(df_ph_clean$conductance))
+plotNormalHistogram(x=log(df_ph_clean$conductance[df_ph_clean$Season=="Spring"]))
+plotNormalHistogram(x=log(df_ph_clean$conductance[df_ph_clean$Season=="Summer"]))
+plotNormalHistogram(x=log(df_ph_clean$conductance[df_ph_clean$Season=="Fall"]))
+
+#creating a new column with log-transformed conductance values 
+df_ph_logged <- df_ph_clean %>% 
+  mutate(logged.conductance = log(conductance))
+
+#ASSESSING HOMOGENEITY OF VARIANCE: 
+basic.conductance.lm <- lm(conductance ~ Season*siteID, data=df_ph_logged)
+par(mfrow=c(2,2))
+plot(basic.conductance.lm)
+#panel 1 (no funnel shape) & 3 (approximately a horizontal line)
+#although not great, the variance is much more equal than before 
+
+#ASSESSING AUTOCORRELATION (IE. INDEPENDANCE OF RESIDUALS): 
+lawstat::runs.test(basic.conductance.lm$residuals)
+#since pvalue is not significant, that means no autocorrelation :) 
+
+```
+summary:
+- removed two rows from the data that contained outliers
+- plotted histograms for conductance values (all, by site, by season)
+  + plotted log transformed conductance values (all, by season)
+- created a new dataframe where conductance was log transformed 
+- checked autocorrelationa & homogeneity of variance 
+
+##boxplots for each site & season
+```{r}
+#by season
+df_ph_logged %>%
+  ggplot(aes(x=Season, y=conductance)) + 
+  geom_boxplot() 
+
+#by site 
+df_ph_logged %>%
+  ggplot(aes(x=siteID, y=conductance)) + 
+  geom_boxplot() 
+#very messy, basically only tells us there's big differences between sites 
+
+#grouped by site, with each season plotted per site
+df_ph_logged %>%
+  ggplot(aes(x=Season, y=conductance)) + 
+  geom_boxplot() + 
+  facet_wrap(~siteID)
+```
+
+summary:
+- there is not a big difference in conductance between seasons across all sites 
+- there are big difference in the conductance between sites across all seasons 
+- there doesn't seem to be a big difference in conductance between seasons within sites 
+  + caution: not very many data points exist for each season within sites
+
+##linear models
+  ```{r}
+#saturated model
+conductance.lm.sat <- lm(logged.conductance ~ Season*siteID + (1|year/month), data=df_ph_logged)
+
+#optimizing random effect structure 
+conductance.lm.sat <- lmer(logged.conductance ~ Season*siteID + (1|year/month), data=df_ph_logged, REML=TRUE)
+conductance.lm.year <- lmer(logged.conductance ~ Season*siteID + (1|year) , data=df_ph_logged, REML=TRUE)
+
+MuMIn::AICc(conductance.lm.sat, conductance.lm.year)
+#use conductance.lm.year since it has the lower AICc score
+
+#optimizing fixed effected structure 
+conductance.lmer1 <- lmer(logged.conductance ~ Season*siteID + (1|year), data=df_ph_logged, REML=FALSE)
+conductance.lmer2 <- lmer(logged.conductance ~ Season + (1|year), data=df_ph_logged, REML=FALSE)
+conductance.lmer3 <- lmer(logged.conductance ~ siteID + (1|year), data=df_ph_logged,REML=FALSE)
+conductance.lmer4 <- lmer(logged.conductance ~ 1 + (1|year), data=df_ph_logged,REML=FALSE)
+
+AICc(conductance.lmer1, conductance.lmer2, conductance.lmer3, conductance.lmer4)
+#best structure is: conductance.lmer3 
+
+```
+summary: 
+- conductance.lmer3 model is the best fit, since lowest AICc score 
+  + this is where only siteID is the fixed effect, year is the random effect 
+- only site ID predicts conductance
+  + conductance value varies based on site 
+  + site becomes random effect in final models predicting richness, evenness, etc. since conductance values are non-independant of site
+
+##checking for spatial autocorrelation
+```{r}
+coord_invert <- SpatialPoints(cbind(df_ph_logged$longitude, df_ph_logged$latitude), proj4string = CRS("+proj=longlat +ellps=WGS84"))
+
+UTM.US <- spTransform(coord_invert, CRS("+init=epsg:2163"))
+
+dist_matrix <- as.matrix(dist(data.frame(UTM.US)))
+inv_dist <- 1/dist_matrix
+diag(inv_dist) <- 0
+
+#get rid of infinite values 
+inv_dist[is.infinite(inv_dist)] <- 0
+
+#moran's I
+Moran.I(df_ph_logged$logged.conductance, inv_dist, alternative = "two.sided") 
+#pvalue is 2.09x10-6, so conductance is spatially autocorrelated 
+
+```
+
+##removoing site in alaska ("CARI") & rechecking spatial autocorrelation 
+```{r}
+#visualizing the null model using a variogram 
+df_ph_logged <- bind_cols(df_ph_logged, as.data.frame(UTM.US))
+df_ph_logged
+conductance.null <- gls(logged.conductance ~ siteID, data=df_ph_logged, method="ML")
+plot(Variogram(conductance.null, form = ~coords.x1+coords.x2, resType = "normalized"))
+##it appears that one point is an outlier - the comparison is of locations that are very far from each other 
+##we could try excluding the alaska site (cari) to see if it resolves the issue of spatial autocorrelation
+
+#excluding mayf site in alaska 
+conductance.cari.out <- df_ph_logged %>% 
+  filter(!siteID == "CARI")
+conductance.null <- gls(logged.conductance ~ siteID, data=conductance.cari.out, method="ML")
+plot(Variogram(conductance.null, form = ~coords.x1+coords.x2, resType = "normalized"))
+##the semivariogram now has a decreasing slope
+
+#calculating moran's i without "cari" site
+coord_invert.cari.out <- SpatialPoints(cbind(conductance.cari.out$longitude, conductance.cari.out$latitude), proj4string = CRS("+proj=longlat +ellps=WGS84"))
+UTM.US <- spTransform(coord_invert.cari.out, CRS("+init=epsg:2163"))
+
+dist_matrix.cari.out <- as.matrix(dist(data.frame(UTM.US)))
+inv_dist.cari.out <- 1/dist_matrix.cari.out
+diag(inv_dist.cari.out) <- 0
+inv_dist.cari.out[is.infinite(inv_dist.cari.out)] <- 0
+
+Moran.I(conductance.cari.out$logged.conductance, inv_dist.cari.out, alternative = "two.sided") 
+##pvalue << 0.05, so there is still signficant spatial autocorrelation - in this case it's oddly negative 
+```
+summary: 
+- the pvalue for moran's i with all the sites included was << 0.05, indicating that there was spatial autocorrelation in the data
+  + some points were more similar depending on distance
+  + we noticed in the variogram that there was one outlier point (high semivariance, far distance), which might have been skewing the data 
+- reran moran's i & a semivariogram, and found that spatial autocorrelation was still significant 
+  + however, it was negatively significant - increasing distance between sites made variance decrease
+- for the next step, we will include cari, but note this site skews the direction of the autocorrelation
+
+##creating a model corrected for spatial autocorrelation
+```{r}
+#jittering coords
+##because the same location was sampled over successive seasons/years, we have to jitter coordinates slightly
+set.seed(777)
+
+coord_invert_jitter <- SpatialPoints(cbind(jitter(df_ph_logged$longitude), jitter(df_ph_logged$latitude)), proj4string = CRS("+proj=longlat +ellps=WGS84"))
+
+UTM.US.jitter <- spTransform(coord_invert_jitter, CRS("+init=epsg:2163"))
+UTM.US.jitter
+
+#binding together jittered location & conductance data set 
+df_ph_logged_jitter <- df_ph_logged %>% 
+  dplyr::select(-coords.x1, -coords.x2) %>% 
+  bind_cols(as.data.frame(UTM.US.jitter))
+
+#all model types 
+conductance.exp <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="exponential"))
+conductance.gau <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="gaussian"))
+conductance.lin <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="linear"))
+conductance.rat <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="rational"))
+conductance.sph <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="spherical"))
+
+#testing for the best model
+AICc(conductance.null, conductance.exp, conductance.gau, conductance.lin, conductance.rat, conductance.sph)
+
+##since the gaussian model has the lowest AICc score, it has the best fit to the data
+
+#best model to predict conductance is: 
+conductance.gau <- gls(logged.conductance~siteID, 
+               data=df_ph_logged_jitter, method="ML", 
+               corr=corSpatial(form=~coords.x1+coords.x2, type ="gaussian"))
+```
+summary: 
+- set a seed so that the long/lat points jitter the same way each time 
+  + jittering the long/lat points allows us to run spatial correction models where the same location is sampled over months/years 
+  + the coordinates are changed very slightly, but not in a way that affects our analyses
+- next, we ran multiple "corrected" models, where the spatial autocorrelation is accounted for in the regression
+  + the best model was the gaussian model 
 
 # 3)	Measuring Simpson’s Index across sites 
 o	Convert species data to a matrix 
