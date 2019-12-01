@@ -1,18 +1,22 @@
 ## packages needed
 
 ```{r}
+library (readr) 
 library(vegan)
 library(ggplot)
 library(tidyverse)
 library(sp)
 library(raster)
 library(ape)
+library(lawstat) 
+library(MuMIn) 
 ```
 
 ## files needed
 
 ```{r}
 invert_genera <- read_csv("invert.genera.season.csv")
+cleaned.final.ph <- read_csv("FINAL.PH.GEO.csv") 
 ```
 
 ## Map of the sites
@@ -50,10 +54,148 @@ inv.dist[is.infinite(inv.dist)] <- 0
 # 1)	Measuring pH variability across sites and seasons
 -	The effect of site, year, and season on pH:
 o	Simple boxplots by sites and seasons: 3 for each site 
-o	**somewhere in lecture** there is code that tests for 4 assumptions of normality – do that before running linear model 
+o	there is code that tests for 4 assumptions of normality – do that before running linear model 
 o	Run multiple models with different structures: run AIC for the best structure 
 o	Account for spatial autocorrelation 
 o	Identify which variable to include as random effect (whatever the fixed effect is) 
+
+``` {r}
+# Removing outliers that don't fit within the normal range of pH values (ie. 0-14)
+cleaned.final.ph<- FINAL.PH %>% 
+  filter(pH < 14 & pH > 0)
+cleaned.final.ph
+
+# Testing for normality - overall pH 
+cleaned.final.ph %>% 
+ggplot(aes(x= pH)) + 
+  geom_histogram()
+
+# Testing for normality - pH by season 
+cleaned.final.ph %>% 
+ggplot(aes(x= pH)) + 
+  geom_histogram() + 
+  facet_wrap(~Season)
+
+# Testing for normality - pH by siteID
+cleaned.final.ph %>% 
+ggplot(aes(x= pH)) + 
+  geom_histogram() + 
+  facet_wrap(~siteID)
+
+# Testing for normality - pH by year 
+cleaned.final.ph %>% 
+ggplot(aes(x= pH)) + 
+  geom_histogram() + 
+  facet_wrap(~year)
+
+# Testing for normality - pH by month
+cleaned.final.ph %>% 
+ggplot(aes(x= pH)) + 
+  geom_histogram() + 
+  facet_wrap(~month)
+# not enough data by month = removed from pH.lm 
+
+# Model that includes all as fixed effects 
+pH.lm<- lm(pH~Season*siteID, data= cleaned.final.ph)
+
+par(mfrow=c(2,2))
+plot(pH.lm)
+# Looking at panels 1 and 2, the data is homogenous and normally distributed 
+
+# boxplots to visualize variation in pH across sites 
+cleaned.final.ph %>% 
+  ggplot(aes(x= siteID, y= pH))+ 
+  geom_boxplot()
+
+# boxplots to visualize variation in pH across seasons 
+cleaned.final.ph %>% 
+  ggplot(aes(x= Season, y= pH))+ 
+  geom_boxplot()
+
+# boxplots to visualize variation in pH across seasons and sites
+cleaned.final.ph %>% 
+  ggplot(aes(x= Season, y= pH))+ 
+  geom_boxplot() + 
+  facet_wrap(~siteID)
+
+# Independence of residuals 
+lawstat::runs.test(pH.lm$residuals)
+# p value is 0.08 -> i.e no autocorrelation 
+
+# Saturated Model 
+```{r}
+pH.lm.sat<-lmer(pH~Season*siteID +(1|year) +(1|month), data= cleaned.final.ph)
+summary(pH.lm.sat)
+```
+
+
+# AIC values 
+```{r}
+cleaned.final.ph
+
+n<- 74 
+k<- 4 
+
+AIC_mod <- n/k 
+
+AIC_mod
+
+#USING AICc because n/k is 18.5 (i.e less than 40)
+
+```
+# Linear Models - best random structure 
+```{r}
+pH.lm.sat.f<-lmer(pH~Season*siteID + (1|year/month), data= cleaned.final.ph, REML= TRUE)
+pH.lm.sat<-lmer(pH~Season*siteID +(1|year), data= cleaned.final.ph, REML= TRUE)
+
+
+MuMIn::AICc(pH.lm.sat, pH.lm.sat.f)
+
+```
+
+# Linear Models - best fixed structure 
+```{r}
+pH.lm.sat.f<-lmer(pH~Season*siteID + (1|year/month), data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.season<-lmer(pH~Season +(1|year/month), data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.siteID<-lmer(pH~siteID +(1|year/month), data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.no.int<-lmer(pH~Season +siteID +(1|year/month) , data= cleaned.final.ph, REML= FALSE)
+pH.lm.sat.ind<-lmer(pH~1  +(1|year/month), data= cleaned.final.ph, REML= FALSE)
+
+MuMIn::AICc(pH.lm.sat.f, pH.lm.sat.season, pH.lm.sat.siteID, pH.lm.sat.no.int, pH.lm.sat.ind)
+
+# best structure is pH.lm.sat.f
+```
+
+
+# Spatial autocorrelation 
+```{r}
+library(sp)
+library(raster)
+library(ape)
+coord_invert <- SpatialPoints(cbind(cleaned.final.ph$longitude, cleaned.final.ph$latitude), 
+proj4string=CRS("+proj=longlat +ellps=WGS84"))
+
+UTM.US <- spTransform(coord_invert, CRS("+init=epsg:2163")) # US National Atlas Equal Area
+
+dist.matrix <- as.matrix(dist(data.frame(UTM.US)))
+
+inv.dist<- 1/dist.matrix
+
+diag(inv.dist) <- 0
+
+# getting rid of infinite values
+inv.dist[is.infinite(inv.dist)] <- 0
+
+Moran.I(cleaned.final.ph$pH, inv.dist, alternative = "two.sided") #p value is 0.59 so pH is not spatially autocorrelated 
+
+
+```
+
+# FINAL PH MODEL IS: 
+```{r}
+pH.lm.sat.f<-lmer(pH~Season*siteID + (1|year/month), data= cleaned.final.ph, REML= FALSE)
+
+```
 
 # 2)	Measuring conductance variability across sites and seasons
 -	The effect of site, year, and season on conductance: 
