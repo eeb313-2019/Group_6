@@ -213,21 +213,21 @@ o	Identify which variable to include as random effect (whatever the fixed effect
 
 ```{r}
 #removed the TECR site since it didn't have any taxonomic data 
-df_ph <- df_ph %>% 
+cleaned.final.ph <- read_csv("FINAL.PH.GEO.csv") 
+cleaned.final.ph <- cleaned.final.ph %>% 
   dplyr::select(siteID, year, month, Season, pH, conductance, latitude, longitude) %>% 
   filter(!siteID == "TECR")
 ```
 ##assumptions:
 ```{r}
 #visualizing the data across sites 
-df_ph %>% 
+cleaned.final.ph %>% 
   ggplot(aes(x=siteID, y=conductance)) + 
   geom_point() 
   
 #remove two outliers due to sampling or inputting error 
-df_ph_clean<- df_ph %>% 
+df_ph_clean <- cleaned.final.ph %>% 
   filter(conductance < 10000)
-df_ph_clean
 
 #this generates 4 plots for normality & homogeneity: 
 basic.conductance.lm <- lm(conductance ~ Season*siteID, data=df_ph_clean)
