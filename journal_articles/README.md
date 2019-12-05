@@ -1,0 +1,7 @@
+This folder contains the journal articles we will be using as references.
+
+Jonsson M, Burrows RM, Lidman J, Fältström E, Laudon H, Sponseller RA. Land use influences macroinvertebrate community composition in boreal headwaters through altered stream conditions. Ambio. 2017;46(3):311–323.
+  This paper shows the link between land use, environmental conditions, and macroinvertebrate communities in boreal Sweden. It showed that streams with higher pH, higher organic matter and moss abundance also tended to have the highest macroinvertebrate diversity. The sites with environmental conditions that were favorable for high diversity also tended to have been under catchment-scale forest management, which shows that management strategies on land can influence macroinvertebrate diversity in nearby streams via changing the environmental conditions.
+  
+  Rawi CSM, Al-Shami SA, Madrus MR, Ahmad AH. Biological and ecological diversity of aquatic macroinvertebrates in response to hydrological and physicochemical parameters in tropical forest streams of Gunung Tebu, Malaysia: implications for ecohydrological assessment. Ecohydrology. 2014;7(2): 496-507.
+  This paper is a comprehensive study of the link between hydrological and physicochemical parameters on macroinvertebrate diversity of forest streams in Malaysia. The researchers categorized the macroinvertebrates by their role in the ecosystem and quantified how each category responded to the environmental variables.
