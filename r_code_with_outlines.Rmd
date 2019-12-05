@@ -23,6 +23,7 @@ library(nlme)
 ```{r}
 invert_genera <- read_csv("invert.genera.season.csv")
 cleaned.final.ph <- read_csv("FINAL.PH.GEO.csv") 
+riparian_data <- read_csv("FINAL.RIP.GEO.csv", col_names = TRUE)
 ```
 
 ## Map of the sites
@@ -71,35 +72,16 @@ cleaned.final.ph<- FINAL.PH %>%
   filter(pH < 14 & pH > 0)
 cleaned.final.ph
 
-# Testing for normality - overall pH 
-cleaned.final.ph %>% 
-ggplot(aes(x= pH)) + 
-  geom_histogram()
+# Testing for normality of residuals 
+pH.lm<- lm(pH~Season*siteID, data= cleaned.final.ph)
+qqnorm(residuals(pH.lm))
 
-# Testing for normality - pH by season 
-cleaned.final.ph %>% 
-ggplot(aes(x= pH)) + 
-  geom_histogram() + 
-  facet_wrap(~Season)
+# Independence of residuals 
+lawstat::runs.test(pH.lm$residuals)
+# p value is 0.08 -> i.e no autocorrelation 
 
-# Testing for normality - pH by siteID
-cleaned.final.ph %>% 
-ggplot(aes(x= pH)) + 
-  geom_histogram() + 
-  facet_wrap(~siteID)
-
-# Testing for normality - pH by year 
-cleaned.final.ph %>% 
-ggplot(aes(x= pH)) + 
-  geom_histogram() + 
-  facet_wrap(~year)
-
-# Testing for normality - pH by month
-cleaned.final.ph %>% 
-ggplot(aes(x= pH)) + 
-  geom_histogram() + 
-  facet_wrap(~month)
-# not enough data by month = removed from pH.lm 
+# Autocorrelation: 
+lawstat::runs.test(pH.lm$residuals)
 
 # Model that includes all as fixed effects 
 pH.lm<- lm(pH~Season*siteID, data= cleaned.final.ph)
@@ -123,10 +105,6 @@ cleaned.final.ph %>%
   ggplot(aes(x= Season, y= pH))+ 
   geom_boxplot() + 
   facet_wrap(~siteID)
-
-# Independence of residuals 
-lawstat::runs.test(pH.lm$residuals)
-# p value is 0.08 -> i.e no autocorrelation 
 
 # Saturated Model 
 ```{r}
@@ -213,21 +191,21 @@ o	Identify which variable to include as random effect (whatever the fixed effect
 
 ```{r}
 #removed the TECR site since it didn't have any taxonomic data 
-df_ph <- df_ph %>% 
+cleaned.final.ph <- read_csv("FINAL.PH.GEO.csv") 
+cleaned.final.ph <- cleaned.final.ph %>% 
   dplyr::select(siteID, year, month, Season, pH, conductance, latitude, longitude) %>% 
   filter(!siteID == "TECR")
 ```
 ##assumptions:
 ```{r}
 #visualizing the data across sites 
-df_ph %>% 
+cleaned.final.ph %>% 
   ggplot(aes(x=siteID, y=conductance)) + 
   geom_point() 
   
 #remove two outliers due to sampling or inputting error 
-df_ph_clean<- df_ph %>% 
+df_ph_clean <- cleaned.final.ph %>% 
   filter(conductance < 10000)
-df_ph_clean
 
 #this generates 4 plots for normality & homogeneity: 
 basic.conductance.lm <- lm(conductance ~ Season*siteID, data=df_ph_clean)
@@ -235,31 +213,13 @@ par(mfrow=c(2,2))
 plot(basic.conductance.lm)
 
 #ASSESSING NORMALITY:
-df_ph_clean %>% 
-  ggplot(aes(x=conductance)) + 
-  geom_histogram() 
-plotNormalHistogram(x=df_ph_clean$conductance)
-#this is super non-normal
-
-df_ph_clean %>% 
-  ggplot(aes(x=conductance)) + 
-  geom_histogram() + 
-  facet_wrap(~siteID, scales="free_x")
-#there aren't enough observations per site to assess normality
-
-df_ph_clean %>% 
-  ggplot(aes(x=conductance)) + 
-  geom_histogram() + 
-  facet_wrap(~Season, scales="free_x")
-#left-skewed for each season
+##this is for a basic model:
+qqnorm(residuals(basic.conductance.lm))
 
 #visualizing the data after applying log transformation to conductance 
 #using plotNormalHistogram to have a fitness line superimposed; easier to draw conclusions 
 #all of these are much more normally distributed 
 plotNormalHistogram(x=log(df_ph_clean$conductance))
-plotNormalHistogram(x=log(df_ph_clean$conductance[df_ph_clean$Season=="Spring"]))
-plotNormalHistogram(x=log(df_ph_clean$conductance[df_ph_clean$Season=="Summer"]))
-plotNormalHistogram(x=log(df_ph_clean$conductance[df_ph_clean$Season=="Fall"]))
 
 #creating a new column with log-transformed conductance values 
 df_ph_logged <- df_ph_clean %>% 
@@ -330,6 +290,9 @@ conductance.lmer4 <- lmer(logged.conductance ~ 1 + (1|year), data=df_ph_logged,R
 
 AICc(conductance.lmer1, conductance.lmer2, conductance.lmer3, conductance.lmer4)
 #best structure is: conductance.lmer3 
+
+#checking normality of residuals of optimized model
+qqnorm(residuals(conductance.lmer3))
 
 ```
 summary: 
@@ -477,9 +440,6 @@ o	Account for spatial autocorrelation
 o	Identify which variable to include as random effect (whatever the fixed effect is) 
 
 ```{r}
-riparian_data <- read_csv("FINAL.RIP.GEO.csv", col_names = TRUE)
-```
-```{r}
 # added season to riparian data just in case we need it. can delete later if we dont use it.
 rd_spring<- riparian_data %>%
   filter(month >=3, month <= 5) %>%
@@ -570,18 +530,11 @@ invert_evenness <- invert_genera %>%
 Moran.I(invert_evenness_coords$evenness, inv.dist, alternative = "two.sided") ## p = 0.432 so it is not.
 ```
 
-# 8)	Either linear model or mixed model to measure effect of pH on Species evenness  
-o	Need to account for spatial autocorrelation from step 3 
-o	Model structure will depend on results from step 1 
+# 8)	Mixed model to measure significance of environmental variables species evenness  
+o	Need to account for spatial autocorrelation from step 7 
+o	Model structure will depend on results from step 1, 2
 
-# 9)	Either linear model or mixed model to measure effect of conductance on Species evenness  
-o	Need to account for spatial autocorrelation from step 3 
-o	Model structure will depend on results from step 2
+# 9)	Mixed model to measure significance of environmental variables species richness  
+o	Need to account for spatial autocorrelation from step 6 
+o	Model structure will depend on results from step 1, 2
 
-# 10)	Either linear or mixed model to measure the effect of riparian cover on species richness 
-o	Need to account for spatial autocorrelation from step 3 
-o	Model structure will depend on results from step 2
-
-# 11)	Either linear model or mixed model to measure effect of riparian cover on Species evenness  
-o	Need to account for spatial autocorrelation from step 3 
-o	Model structure will depend on results from step 2
