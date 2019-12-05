@@ -24,6 +24,7 @@ library(nlme)
 invert_genera <- read_csv("invert.genera.season.csv")
 cleaned.final.ph <- read_csv("FINAL.PH.GEO.csv") 
 riparian_data <- read_csv("FINAL.RIP.GEO.csv", col_names = TRUE)
+merged.final.file <- read_csv("merged.final.fle.csv")
 ```
 
 ## Map of the sites
