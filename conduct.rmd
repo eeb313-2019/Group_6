@@ -1,7 +1,3 @@
----
-title: "conduct"
-output: html_document
----
 
 # Code of conduct 
 November 11, 2019
@@ -16,7 +12,8 @@ November 11, 2019
 -	Be respectful of everyone’s opinion. 
 - Listen to each everyone’s ideas.
 - Be kind to all group members.
--	All issues will be resolved through group consensus. Only if issues cannot be resolved in a way where all group members are in agreement will a course instructor be consulted.
+-	All issues will be resolved through group consensus.
+- Only if issues cannot be resolved in a way where all group members are in agreement will a course instructor be consulted.
 -	Implement ideas and changes as a group. 
 
 ## ORGANIZATION 
@@ -27,6 +24,6 @@ November 11, 2019
 -	Meet all deadlines—if a group member feels they can’t meet a deadline, they should ask for help or accommodation well before. 
 
 ## MERGING & PULL REQUESTS 
-- All group members must approve a pull request before it gets merged to the master branch
-- Approval of a pull request can be a comment on the request, a thumbs-up on the request, or a text message confirmation 
-- The last person to approve the pull request (who is NOT the author of the request) will merge to master 
+- All group members must approve a pull request before it gets merged to the master branch.
+- Approval of a pull request can be a comment on the request, a thumbs-up on the request, or a text message confirmation.
+- The last person to approve the pull request (who is NOT the author of the request) will merge to master.
