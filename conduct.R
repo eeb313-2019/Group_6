@@ -25,3 +25,8 @@ November 11, 2019
 -	Agree on all deadlines as a group.
 -	Establish group deadlines before the course deadlines. 
 -	Meet all deadlines—if a group member feels they can’t meet a deadline, they should ask for help or accommodation well before. 
+
+## MERGING & PULL REQUESTS 
+- All group members must approve a pull request before it gets merged to the master branch
+- Approval of a pull request can be a comment on the request, a thumbs-up on the request, or a text message confirmation 
+- The last person to approve the pull request (who is NOT the author of the request) will merge to master 
