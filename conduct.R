@@ -14,8 +14,8 @@ November 11, 2019
 
 ## ETHICS 
 -	Be respectful of everyone’s opinion. 
-- Listen to each everyone's ideas.
--	Be kind to all group members.
+- Listen to each everyone’s ideas.
+- Be kind to all group members.
 -	All issues will be resolved through group consensus. Only if issues cannot be resolved in a way where all group members are in agreement will a course instructor be consulted.
 -	Implement ideas and changes as a group. 
 
